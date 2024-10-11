@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Page</title>
+    <link rel="stylesheet" href="~/css/site.css">
+
+</head>
+<body>
+    <div id="header">
+        <h1 class="display-4">~Welcome To DC Banking System~</h1>
+    </div>
+    <div id="home-page-navigation">
+        <ul>
+            <li> <button type="button" id="LoginButtonID" onclick="loadView()">Login</button></li>
+            <li> <button type="button" id="UserProfileInformationButtonID" onclick="loadView('userProfileInformation')" style="display: none;">User Profile Information</button></li>
+            <li> <button type="button" id="EditUserInformationButtonID" onclick="loadView('editUserInformation')" style="display: none;">Edit User Information</button></li>
+            <li> <button type="button" id="UserAccountSummaryButtonID" onclick="loadView('userAccountSummary')" style="display: none;">User Account Summary</button></li>
+            <li> <button type="button" id="TransactionHistoryButtonID" onclick="loadView('transactionHistory')" style="display: none;">Transaction History</button></li>
+            <li> <button type="button" id="MoneyTransferID" onclick="loadView('moneyTransfer')" style="display: none;">Money Transfer</button></li>
+            <li> <button type="button" id="LogoutButtonID" onclick="loadView('logout')" style="display: none;">Logout</button></li>
+        </ul>
+    </div>
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</body>
+</html>
