@@ -12,6 +12,10 @@ html {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+.header, footer {
+    display: none;
+}
+
 html {
     position: relative;
     min-height: 100%;
@@ -30,27 +34,55 @@ div#header {
 body {
     background-color: cadetblue;
     height: 500px;
-    background-position: center;
 }
 
+/* buttons before login */
+div#home-page-navigation li button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+    div#home-page-navigation li button:disabled:hover {
+        background-color: black;
+        color:white;
+    }
+
+/* container block */
 div#home-page-navigation ul {
     list-style-type: none;
     padding: 0;
+    display: flex; /* for same size button */
+    justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 10px;
+    border: 3px solid black;
 }
 
+/* button */
 div#home-page-navigation li {
-    float: inline-start;
+    flex: 1; /* same length */
+    border: 3px solid;
+    border-block-color: black;
 }
 
+    /* each button style */
     div#home-page-navigation li button {
         display: block;
-        color: black;
-        text-align: center;
-        padding: 16px;
-        font-size: large;
+        width: 100%;
+        height: 80px;
+        color: black; /* font color */
+        border: none; /* no extra border */
+        text-align: center; /* text is aligned at center */
+        padding: 5px;
+        font-size: 16px;
+        font-weight: 500; /* bold */
+        font-family: Bahnschrift;
+        white-space: normal; /* wrap text */
+        background-color: aliceblue;
+        vertical-align: top;
     }
-
+        /* button style after hovering on it */
         div#home-page-navigation li button:hover {
-            background-color: #111111;
-            color: white;
+            background-color: black;
+            color: white; /* font color */
         }
