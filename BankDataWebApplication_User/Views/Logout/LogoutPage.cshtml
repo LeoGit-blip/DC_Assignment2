@@ -3,10 +3,14 @@
 *@
 @{
 }
-<p id="status">
+<p id="LogoutPage">
     @*
-        action: Login
-        controller name: LoginAccount
+    action: Login
+    controller name: LoginAccount
     *@
-    You are successfully logged out. <a href="@Url.Action("Login", "LoginAccount")">Click here to login</a>
+    Thanks for Using DC's Banking System!
+    @*
+    ,br> for line break - next paragraph
+    *@
+    <br>You Have Successfully Logged Out. Click <a href="@Url.Action("Login", "LoginAccount")">here</a> to login.
 </p>

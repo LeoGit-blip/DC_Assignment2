@@ -4,9 +4,13 @@
 @{
 }
 <div id="EditUserInformationPage">
-    <input type="text" id="UsernameID" name="Username" placeholder="USERNAME" />
-    <input type="email" id="EmailID" name="Email" placeholder="EMAIL ADDRESS" />
-    <input type="number" id="PhoneNumberID" name="PhoneNumber" placeholder="PHONE NUMBER" />
-    <input type="image" id="ProfilePictureID" name="ProfilePicture" placeholder="PROFILE PICTURE" />
-    <button type="button" id="SaveID" onclick="saveUserInformation()">SAVE</button>
+    <label for="username">User Name</label>
+    <input type="text" id="UsernameID" name="Username" placeholder="Username" />
+    <label for="email">Email Address</label>
+    <input type="email" id="EmailID" name="Email" placeholder="Email Address" />
+    <label for="number">Phone Number</label>
+    <input type="number" id="PhoneNumberID" name="PhoneNumber" placeholder="Phone Number" />
+    <label for="file">Profile Picture</label>
+    <input type="file" id="ProfilePictureID" name="ProfilePicture" accept="image/*" />
+    <button type="button" id="SaveID" onclick="userUpdatedInfoValidationCheck()">Save</button>
 </div>

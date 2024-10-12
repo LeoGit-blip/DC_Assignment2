@@ -21,7 +21,21 @@
             <li><button disabled type="button" id="LogoutButtonID" onclick="checkLogin('logout')">Logout</button></li>
         </ul>
     </div>
+
+    <p id="LogoutPage">
+        @*
+        action: Login
+        controller name: LoginAccount
+        *@
+        Thanks for Using DC's Banking System!
+        @*
+        ,br> for line break - next paragraph
+        *@
+        <br>You Have Successfully Logged Out. Click <a href="@Url.Action("Login", "LoginAccount")">here</a> to login.
+    </p>
+
     <script src="~/js/site.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
 </body>
 </html>
+ 

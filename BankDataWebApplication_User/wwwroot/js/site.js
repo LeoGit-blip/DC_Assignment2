@@ -54,7 +54,29 @@ function performAuth() {
         });
 }
 
+/* checking when user save new (updates) information */
+function userUpdatedInfoValidationCheck()
+{
+    let username = document.getElementById('UsernameID');
+    let email = document.getElementById('EmailID');
+    let phoneNumber = document.getElementById('PhoneNumberID');
+    let profilePicture = document.getElementById('ProfilePictureID');
 
+    if (!username.value || !email.value || !phoneNumber.value || !profilePicture.files.length)
+    {
+        alert("Unable to Save Information. Please Fill All Fields.");
+        return; /* don't continue save data */
+    }
+    // else save new user information
+    saveUserInformation(); // else save new user information
+}
+
+function saveUserInformation()
+{
+
+}
+
+/* logout button */
 function logout()
 {
     // enable buttons
