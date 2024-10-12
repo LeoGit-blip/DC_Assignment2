@@ -4,7 +4,7 @@
     {
         public int accountNumber { get; set; }
 
-        public float balance { get; set; }
+        public double balance { get; set; }
 
         public string? holderName { get; set; }
 

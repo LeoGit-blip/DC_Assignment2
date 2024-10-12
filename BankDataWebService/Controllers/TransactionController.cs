@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BankDataWebService.Data;
-using System.Security.Principal;
 using BankDataWebService.Models;
 
 namespace BankDataWebService.Controllers
@@ -9,39 +8,61 @@ namespace BankDataWebService.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        [HttpPost]
-        public IActionResult deposit([FromBody] Transaction transaction)
-        {
-            var temp = DBManager.getAllAcounts();
 
-            if (account == null)
+        [HttpPost]
+        public IActionResult createTransaction([FromBody] Transaction transaction)
+        {
+            if (transaction == null)
             {
-                return BadRequest(new { Message = "Detect Account is null" });
+                return BadRequest(new { Message = "Detect transaction is null" });
             }
             else
             {
-                account.balance += transaction.transactionAmount;
-                transaction.transactionTime = DateTime.Now;
-                transaction.transactionType = "DEPOSIT";
-                return Ok(transaction);
+                DBManager.insertTransaction(transaction);
+                var response = new { Message = "Transaction create successfully" };
+                return new ObjectResult(response)
+                {
+                    StatusCode = 200,
+                    ContentTypes = { "application/json" }
+                };
             }
         }
 
         [HttpPost]
-        public IActionResult withdraw([FromBody] Transaction transaction)
+        public IActionResult deposit([FromBody] Transaction transaction, int accountNumber)
         {
-            if (account == null)
+            var temp = DBManager.getByAccountNumber(accountNumber);
+
+            if (transaction == null || transaction.transactionAmount <= 0)
             {
-                return BadRequest(new { Message = "Detect Account is null" });
+                return BadRequest(new { Message = "Amount cannot be negative" });
+            }
+            if(accountNumber == null)
+            {
+                return BadRequest(new { Message = "Amount didnt exist" });
+            }
+            return Ok(temp);
+        }
+
+        [HttpPost]
+        public IActionResult withdraw([FromBody] Transaction transaction, int accountNumber)
+        {
+            var temp = DBManager.getByAccountNumber(accountNumber);
+
+            if (transaction == null || transaction.transactionAmount <= 0)
+            {
+                return BadRequest(new { Message = "Amount cannot be negative" });
+            }
+            else if (accountNumber == null)
+            {
+                return BadRequest(new { Message = "Amount didnt exist" });
             }
             else
             {
-                account.balance -= transaction.transactionAmount;
-                transaction.transactionTime = DateTime.Now;
-                transaction.transactionType = "WITHDRAW";
-                return Ok(transaction);
+                return Ok(temp);
             }
         }
+
 
         [HttpGet]
         public IActionResult History()

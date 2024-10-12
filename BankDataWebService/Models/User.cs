@@ -1,4 +1,6 @@
-﻿namespace BankDataWebService.Models
+﻿using System.Drawing;
+
+namespace BankDataWebService.Models
 {
     public class User
     {
@@ -12,6 +14,6 @@
 
         public int phone { get; set; }
 
-        public Bitmap? picture { get; set; }
+        public Bitmap picture { get; set; }
     }
 }

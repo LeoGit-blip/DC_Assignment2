@@ -82,7 +82,7 @@ namespace BankDataWebService.Data
                         TransactionID INTEGER PRIMARY KEY AUTOINCREMENT,
                         TransactionName TEXT,
                         TransactionAmount INTEGER,
-                        TransactionType TEXT NOT NULL CHECK (TransactionType IN ('Deposit' 'Withdraw')),
+                        TransactionType TEXT NOT NULL CHECK (TransactionType IN ('Deposit','Withdraw')),
                         TransactionTime DATETIME DEFAULT CURRENT_TIMESTAMP,
                     )";
                         command.ExecuteNonQuery();
@@ -174,7 +174,7 @@ namespace BankDataWebService.Data
             return false;
         }
 
-        public static bool insertTransaction(Models.Transaction transaction)
+        public static bool insertTransaction(Transaction transaction)
         {
             try
             {
@@ -185,13 +185,13 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                        INSERT INTO Transaction(UserID, UserName, Email, Address, Password, Phone)
-                        VALUES (@UserID, @UserName, @Email, @Address, @Password, @Phone)";
+                        INSERT INTO Transaction(TransactionID, TransactionName, TransactionAmount, TransactionType, TransactionTime)
+                        VALUES (@TransactionID, @TransactionName, @TransactionAmount, @TransactionType, @TransactionTime)";
 
                         command.Parameters.AddWithValue("@TransactionID", transaction.transactionID);
                         command.Parameters.AddWithValue("@TransactionName", transaction.transactionName);
                         command.Parameters.AddWithValue("@TransactionAmount", transaction.transactionAmount);
-                        command.Parameters.AddWithValue("@TransactionAmount", transaction.transactionType);
+                        command.Parameters.AddWithValue("@TransactionType", transaction.transactionType);
                         command.Parameters.AddWithValue("@TransactionTime", transaction.transactionTime);
 
                         int rowsInserted = command.ExecuteNonQuery();
@@ -426,7 +426,7 @@ namespace BankDataWebService.Data
 
         public static List<Models.Transaction> getAllHistory()
         {
-            List<Models.Transaction> transactionList = new List<Models.Transaction>();
+            List<Models.Transaction> transactionList = new List<Transaction>();
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -441,11 +441,12 @@ namespace BankDataWebService.Data
                         {
                             while (reader.Read())
                             {
-                                Models.Transaction transaction = new Models.Transaction();
-                                transaction.transactionID = Convert.ToInt32(reader["UserID"]);
+                                Models.Transaction transaction = new Transaction();
+                                transaction.transactionID = Convert.ToInt32(reader["TransactionID"]);
                                 transaction.transactionAmount = Convert.ToInt32(reader["TransactionAmount"]);
                                 transaction.transactionName = reader["TransactionName"].ToString();
                                 transaction.transactionType = reader["TransactionType"].ToString();
+                                transaction.transactionTime = Convert.ToDateTime(reader["TransactionTime"]);
                                 transactionList.Add(transaction);
                             }
                         }
@@ -568,19 +569,63 @@ namespace BankDataWebService.Data
             return user;
         }
 
-        public static List<Account> generateAccounts(int accountNumber, int count)
+        public static List<Account> generateAccounts(int count, List<User>users)
         {
             var accountsList = new List<Account>();
+
             for (int i = 0; i < count; i++)
             {
+                var user = users[random.Next(users.Count)];
                 accountsList.Add(new Account
                 {
-                    accountNumber = (accountNumber * 10) + i + 1,
-                    balance = random.Next(10000, 99999),
-                    holderName = holderName,
-
-                }
+                    accountNumber = random.Next(1000, 9999),
+                    balance = random.NextDouble(),
+                    holderName = user.userName,
+                    phoneNumber = user.phone,
+                    email = user.email
+                });
             }
+            return accountsList;
+        }
+
+        public List<User> generateUsers(int count)
+        {
+            var users = new List<User>();
+            
+            for(int i = 0; i < count; i++)
+            {
+                users.Add(new User
+                {
+                    userName = "User" + (i + 1),
+                    email = $"user{i + 1}@example.com",
+                    password = randomString(10),
+                    address = randomString(10)
+                });
+            }
+            return users;
+        }
+
+        public static string randomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray() );
+        }
+
+        public List<Transaction> generateTransaction(int count)
+        {
+            var transactionList = new List<Transaction>();
+            for(int i =0; i<count; i++)
+            {
+                transactionList.Add(new Transaction
+                {
+                    transactionType = random.Next(0, 2) == 0 ? "Deposit" : "Withdraw",
+                    transactionAmount = random.NextDouble(),
+                    transactionTime = DateTime.Now,
+                    transactionID = random.Next(1, 11)
+                });
+            }
+            return transactionList;
         }
     }
 }

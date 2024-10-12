@@ -6,7 +6,7 @@
 
         public string transactionName { get; set; }
 
-        public int transactionAmount { get; set; }
+        public double transactionAmount { get; set; }
 
         public string transactionType { get; set; }
 
