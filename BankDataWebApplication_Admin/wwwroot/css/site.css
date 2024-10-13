@@ -178,7 +178,8 @@ div#AdminHomePage li button:disabled {
     justify-content: center;
 }
 
-#UserManagementPage ul {
+/* ul in User Management Page */
+#UserDataManagement {
     list-style-type: none;
     display: flex;
     align-content: center;
@@ -187,12 +188,14 @@ div#AdminHomePage li button:disabled {
 
 #UserManagementPage li button{
     flex: 1; /* same length */
-    font-size: larger;
+    font-size: medium;
     margin-top:40px;
     font-family: Bahnschrift;
-    height: 70px;
-    width:300px;
-    background-color:aliceblue;
+    height: 50px;
+    width: 150px;
+    background-color:lightslategray;
+    border:solid;
+    margin-right:12px;
 }
     /* button style after hovering on it */
     div#UserManagementPage li button:hover {
@@ -201,6 +204,111 @@ div#AdminHomePage li button:disabled {
     }
 
 #Searching {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+/* edit user information page */
+#CreateNewUserSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 550px;
+}
+
+    #CreateNewUserSection input,
+    #CreateNewUserSection button {
+        margin: 5px;
+        width: 300px;
+        padding: 10px;
+    }
+
+#SaveID {
+    background-color: lightskyblue;
+    border: 3px solid black;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+    #SaveID:hover {
+        background-color: black;
+        opacity: 1.0;
+        color: white;
+        border: 3px solid black;
+    }
+
+#DeactivateUserSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+}
+
+    #DeactivateUserSection input{
+        margin: 5px;
+        width: 300px;
+        padding: 10px;
+    }
+
+#DeactivateButtonID {
+    background-color: lightskyblue;
+    border: 3px solid black;
+    color: black;
+    font-size: 16px;
+    width: 100px;
+    height:40px;
+    font-weight: 500;
+}
+
+    #DeactivateButtonID:hover {
+        background-color: black;
+        opacity: 1.0;
+        color: white;
+        border: 3px solid black;
+    }
+
+/* Transaction History page */
+#TransactionManagementPage h2 {
+    font-family: 'Betm Rounded';
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#SearchDataID {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+/* table style - transaction management, user management and logs and audit trails page */
+table, th, td{
+    border: 3px solid;
+}
+
+table {
+    width: 100%;
+    font-size: 18px;
+    font-family: 'Betm Rounded';
+    font-stretch:expanded;
+    margin-top: 40px;
+}
+
+th, td {
+    width: 100px;
+    height: 40px;
+    text-align:center;
+    background-color:wheat;
+    color: black;
+}
+
+/* Logs and Audit Trails page */
+#LogsAndAuditTrailsPage h2 {
+    font-family: 'Betm Rounded';
     display: flex;
     align-content: center;
     justify-content: center;
@@ -217,6 +325,5 @@ div#AdminHomePage li button:disabled {
         color: darkblue;
         font-weight: 500;
     }
-
 
 

@@ -13,21 +13,82 @@
             <option value="Account Number">Account Number</option>
         </select>
         <button type="button" id="FilterID" onclick="filterInfo()">Search </button>  <!-- filter  -->
+        <!-- either one will show up depends on the option chosen (username&button / accnum&button) -->
+        <input type="hidden" id="UserNameID" name="UsernameID" placeholder="User Name">
+        <input type="hidden" id="AccountNumberID" name="AccountNumberID" placeholder="Account Number">
+        <button hidden id="SearchID" onclick="searchInfo()">Search</button>  <!-- search (Search button)  -->
     </div>
 
-    <!-- display users list -->
-    <ul>
-        <li> <b> User Name: </b> <span id="DisplayUserNameID">Example Name</span></li>
-        <li> <b> Email Address: </b><span id="DisplayEmailAddressID">example_email@gmail.com</span></li>
-        <li> <b> Phone Number:</b> <span id="DisplayPhoneNumberID"> 0123456789</span></li> <!-- 10 numbers -->
-        <li> <b> Account Number: </b><span id="DisplayAccountNumberID"> 12345678</span></li> <!-- 8 numbers -->
-        <li> <b> Balance: </b><span id="DisplayBalanceID"> 10000</span></li> <!-- >= 1 numbers -->
-    </ul>
-
     <!-- buttons - 3 options (create, edit, deactivate) -->
-    <ul>
+    <ul id="UserDataManagement">
         <li> <button type="button" id="CreateAccID" onclick="loadView()">Create New User</button></li>
         <li> <button type="button" id="EditAccID" onclick="loadView()">Edit User Account</button></li>
         <li> <button type="button" id="DeactivateAccID" onclick="loadView()">Deactive Account</button></li>
     </ul>
+
+    <!-- create new users -->
+    <div id="CreateNewUserSection" style="margin-top:70px; margin-bottom:70px; display:none;">
+        <label for="username">User Name</label>
+        <input type="text" id="UsernameID" name="Username" placeholder="Username" />
+        <label for="email">Email Address</label>
+        <input type="email" id="EmailID" name="Email" placeholder="Email Address" />
+        <label for="password">Password</label>
+        <input type="password" id="PasswordID" name="Password" placeholder="Password" />
+        <label for="hpnumber">Phone Number</label>
+        <input type="number" id="PhoneNumberID" name="PhoneNumber" placeholder="Phone Number" />
+        <label for="accnumber">Account Number</label>
+        <input type="number" id="AccountNumberID" name="AccountNumber" placeholder="Account Number" />
+        <label for="balance">Balance</label>
+        <input type="number" id="BalanceID" name="Balance" placeholder="Balance" />
+        <label for="file">Profile Picture</label>
+        <input type="file" id="ProfilePictureID" name="ProfilePicture" accept="image/*" />
+        <button type="button" id="SaveID" onclick="userUpdatedInfoValidationCheck()">Save</button>
+    </div>
+    <!-- end create new users -->
+
+    <!-- edit users -->
+    <div id="EditNewUserSection" style="margin-top:70px; margin-bottom:70px; display:none;">
+        <label for="username">User Name</label>
+        <input type="text" id="UsernameID" name="Username" placeholder="Username" />
+        <label for="email">Email Address</label>
+        <input type="email" id="EmailID" name="Email" placeholder="Email Address" />
+        <label for="password">Password</label>
+        <input type="password" id="PasswordID" name="Password" placeholder="Password" />
+        <label for="hpnumber">Phone Number</label>
+        <input type="number" id="PhoneNumberID" name="PhoneNumber" placeholder="Phone Number" />
+        <label for="accnumber">Account Number</label>
+        <input type="number" id="AccountNumberID" name="AccountNumber" placeholder="Account Number" />
+        <label for="balance">Balance</label>
+        <input type="number" id="BalanceID" name="Balance" placeholder="Balance" />
+        <label for="file">Profile Picture</label>
+        <input type="file" id="ProfilePictureID" name="ProfilePicture" accept="image/*" />
+        <button type="button" id="SaveID" onclick="userUpdatedInfoValidationCheck()">Save</button>
+    </div>
+    <!-- end edit users -->
+
+    <!-- deactivate users -->
+    <div id="DeactivateUserSection" style="margin-top:70px; display:none;">
+        <label for="username">Deactivate User Name</label>
+        <input type="text" id="DeactivateUsernameID" name="Username" placeholder="Username" />
+        <button type="button" id="DeactivateButtonID" onclick="deactivate()">Deactivate</button>
+    </div>
+    <!-- end deactivate users -->
+
+    <!-- display users data in table -->
+    <table border="2" id="UserManagementTable">
+        <thead>
+            <!-- header  -->
+            <tr>
+                <!-- table row  -->
+                <th>User Name</th> <!-- head  -->
+                <th>Email Address</th>
+                <th>Phone Number</th>
+                <th>Account Number</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- table body  -->
+        </tbody>
+    </table>
 </div>

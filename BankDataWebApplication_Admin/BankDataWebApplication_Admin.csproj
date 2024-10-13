@@ -6,9 +6,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\LogsAndAuditTrails\" />
-    <Folder Include="Views\TransactionManagement\" />
-  </ItemGroup>
-
 </Project>
