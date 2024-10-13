@@ -18,7 +18,7 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                    CREATE TABLE Account (
+                    CREATE TABLE AccountTable (
                         AccountNumber INTEGER PRIMARY KEY AUTOINCREMENT,
                         Balance INTEGER,
                         HolderName TEXT NOT NULL,
@@ -48,12 +48,12 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                    CREATE TABLE User (
+                    CREATE TABLE UserTable (
                         Email TEXT PRIMARY KEY,
                         UserName TEXT,
                         Address TEXT NOT NULL,
                         Password TEXT NOT NULL,
-                        Phone INTEGER,
+                        Phone INTEGER
                     )";
                         command.ExecuteNonQuery();
                         connection.Close();
@@ -78,12 +78,12 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                    CREATE TABLE Transaction (
+                    CREATE TABLE TransactionTable (
                         TransactionID INTEGER PRIMARY KEY AUTOINCREMENT,
                         TransactionName TEXT,
-                        TransactionAmount INTEGER,
+                        TransactionAmount DOUBLE,
                         TransactionType TEXT NOT NULL CHECK (TransactionType IN ('Deposit','Withdraw')),
-                        TransactionTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        TransactionTime DATETIME DEFAULT CURRENT_TIMESTAMP
                     )";
                         command.ExecuteNonQuery();
                         connection.Close();
@@ -109,7 +109,7 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                        INSERT INTO Account(AccountNumber, Balance, HolderName, PhoneNumber, Email)
+                        INSERT INTO AccountTable (AccountNumber, Balance, HolderName, PhoneNumber, Email)
                         VALUES (@AccountNumber, @Balance, @HolderName, @PhoneNumber, @Email)";
 
                         command.Parameters.AddWithValue("@AccountNumber", account.accountNumber);
@@ -147,7 +147,7 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                        INSERT INTO User(UserName, Email, Address, Password, Phone)
+                        INSERT INTO UserTable (UserName, Email, Address, Password, Phone)
                         VALUES (@UserName, @Email, @Address, @Password, @Phone)";
 
                         command.Parameters.AddWithValue("@UserName", user.userName);
@@ -185,8 +185,8 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                        INSERT INTO Transaction(TransactionID, TransactionName, TransactionAmount, TransactionType, TransactionTime)
-                        VALUES (@TransactionID, @TransactionName, @TransactionAmount, @TransactionType, @TransactionTime)";
+                        INSERT INTO TransactionTable (TransactionName, TransactionAmount, TransactionType, TransactionTime)
+                        VALUES (@TransactionName, @TransactionAmount, @TransactionType, @TransactionTime)";
 
                         command.Parameters.AddWithValue("@TransactionID", transaction.transactionID);
                         command.Parameters.AddWithValue("@TransactionName", transaction.transactionName);
@@ -222,7 +222,7 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = $"DELETE FROM Account WHERE AccountNumber = @AccountNumber";
+                        command.CommandText = $"DELETE FROM AccountTable WHERE AccountNumber = @AccountNumber";
                         command.Parameters.AddWithValue("@AccountNumber", account.accountNumber);
 
                         int rowsDeleted = command.ExecuteNonQuery();
@@ -253,8 +253,8 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = $"DELETE FROM User WHERE UserName = @UserName";
-                        command.CommandText = $"DELETE FROM User WHERE Email = @Email";
+                        command.CommandText = $"DELETE FROM UserTable WHERE UserName = @UserName";
+                        command.CommandText = $"DELETE FROM UserTable WHERE Email = @Email";
 
                         command.Parameters.AddWithValue("@UserName", user.userName);
                         command.Parameters.AddWithValue("@Email", user.email);
@@ -287,7 +287,7 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = $"UPDATE Account SET Balance = @Balance, HolderName = @HolderName, PhoneNumber = @PhoneNumebr, Email =@Email WHERE AccountNumber = @AccountNumber, ";
+                        command.CommandText = $"UPDATE AccountTable SET Balance = @Balance, HolderName = @HolderName, PhoneNumber = @PhoneNumebr, Email =@Email WHERE AccountNumber = @AccountNumber, ";
 
                         command.Parameters.AddWithValue("@AccountNumber", account.accountNumber);
                         command.Parameters.AddWithValue("@Balance", account.balance);
@@ -323,7 +323,7 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = $"UPDATE User SET UserName = @UserName, Email = @Email, Address = @Address, Password =@Password, Phone = @Phone";
+                        command.CommandText = $"UPDATE UserTable SET UserName = @UserName, Email = @Email, Address = @Address, Password =@Password, Phone = @Phone";
 
                         command.Parameters.AddWithValue("@UserName", user.userName);
                         command.Parameters.AddWithValue("@Email", user.email);
@@ -360,7 +360,7 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM Account";
+                        command.CommandText = "SELECT * FROM AccountTable";
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
@@ -398,7 +398,7 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM User";
+                        command.CommandText = "SELECT * FROM UserTable";
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
@@ -424,9 +424,9 @@ namespace BankDataWebService.Data
             return userList;
         }
 
-        public static List<Models.Transaction> getAllHistory()
+        public static List<Transaction> getAllHistory()
         {
-            List<Models.Transaction> transactionList = new List<Transaction>();
+            List<Transaction> transactionList = new List<Transaction>();
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -435,15 +435,15 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM Transaction";
+                        command.CommandText = "SELECT * FROM TransactionTable";
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                Models.Transaction transaction = new Transaction();
+                                Transaction transaction = new Transaction();
                                 transaction.transactionID = Convert.ToInt32(reader["TransactionID"]);
-                                transaction.transactionAmount = Convert.ToInt32(reader["TransactionAmount"]);
+                                transaction.transactionAmount = Convert.ToDouble(reader["TransactionAmount"]);
                                 transaction.transactionName = reader["TransactionName"].ToString();
                                 transaction.transactionType = reader["TransactionType"].ToString();
                                 transaction.transactionTime = Convert.ToDateTime(reader["TransactionTime"]);
@@ -472,7 +472,9 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM Account WHERE AccountNumber = @AccountNumber";
+                        command.CommandText = "SELECT * FROM AccountTable WHERE AccountNumber = @AccountNumber";
+                        command.Parameters.AddWithValue("@AccountNumber", accountNumber);
+
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
@@ -508,7 +510,8 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM User WHERE UserID = @UserID";
+                        command.CommandText = "SELECT * FROM UserTable WHERE UserName = @UserName";
+                        command.Parameters.AddWithValue("@UserName", userName);
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
@@ -544,7 +547,8 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = "SELECT * FROM User WHERE Email = @Email";
+                        command.CommandText = "SELECT * FROM UserTable WHERE Email = @Email";
+                        command.Parameters.AddWithValue("@Email", email);
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
@@ -569,20 +573,91 @@ namespace BankDataWebService.Data
             return user;
         }
 
-        public static List<Account> generateAccounts(int count, List<User>users)
+        public static bool clearAccountTable()
+        {
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SQLiteCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = "DELETE FROM AccountTable";
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public static bool clearUserTable()
+        {
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SQLiteCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = "DELETE FROM UserTable";
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public static bool clearTransactionTable()
+        {
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SQLiteCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = "DELETE FROM TransactionTable";
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public static List<Account> generateAccounts(int count)
         {
             var accountsList = new List<Account>();
 
             for (int i = 0; i < count; i++)
             {
-                var user = users[random.Next(users.Count)];
                 accountsList.Add(new Account
                 {
                     accountNumber = random.Next(1000, 9999),
-                    balance = random.NextDouble(),
-                    holderName = user.userName,
-                    phoneNumber = user.phone,
-                    email = user.email
+                    balance = random.Next(1000, 10000) + random.NextDouble(),
+                    holderName = randomString(10),
+                    phoneNumber = random.Next(10000,99999),
+                    email = $"user{i + 1}@example.com"
                 });
             }
             return accountsList;
@@ -590,19 +665,20 @@ namespace BankDataWebService.Data
 
         public static List<User> generateUsers(int count)
         {
-            var users = new List<User>();
+            var usersList = new List<User>();
             
             for(int i = 0; i < count; i++)
             {
-                users.Add(new User
+                usersList.Add(new User
                 {
                     userName = "User" + (i + 1),
                     email = $"user{i + 1}@example.com",
                     password = randomString(10),
-                    address = randomString(10)
+                    address = randomString(10),
+                    phone = random.Next(10000, 99999)
                 });
             }
-            return users;
+            return usersList;
         }
 
         public static string randomString(int length)
@@ -620,12 +696,29 @@ namespace BankDataWebService.Data
                 transactionList.Add(new Transaction
                 {
                     transactionType = random.Next(0, 2) == 0 ? "Deposit" : "Withdraw",
+                    transactionName = randomString(10),
                     transactionAmount = random.NextDouble(),
                     transactionTime = DateTime.Now,
-                    transactionID = random.Next(1, 11)
+                    transactionID = 0
                 });
             }
             return transactionList;
+        }
+
+        public static void dataSeeding(List<User> users, List<Account> accounts, List<Transaction> transactions)
+        {
+            foreach (var user in users)
+            {
+                insertUser(user);
+            }
+            foreach (var account in accounts)
+            {
+                insertAccount(account);
+            }
+            foreach (var transaction in transactions)
+            {
+                insertTransaction(transaction);
+            }
         }
     }
 }

@@ -28,6 +28,17 @@ namespace BankDataWebService.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult History()
+        {
+            var history = DBManager.getAllHistory();
+            if (history == null)
+            {
+                return NotFound(new { Message = "The list is empty" });
+            }
+            return Ok(history);
+        }
+
         [HttpPost]
         public IActionResult deposit([FromBody] Transaction transaction, int account1, int account2)
         {
@@ -50,12 +61,12 @@ namespace BankDataWebService.Controllers
             {
                 temp1.balance -= transaction.transactionAmount;
                 temp2.balance += transaction.transactionAmount;
-                createTransaction(transaction);
+                DBManager.insertTransaction(transaction);
             }
             return Ok(temp2);
         }
 
-        [HttpPost()]
+        [HttpPost]
         public IActionResult withdraw([FromBody] Transaction transaction, int accountNumber)
         {
             var temp = DBManager.getByAccountNumber(accountNumber);
@@ -75,16 +86,8 @@ namespace BankDataWebService.Controllers
             else
             {
                 temp.balance += transaction.transactionAmount;
-                createTransaction(transaction);
+                DBManager.insertTransaction(transaction);
             }
-            return Ok(temp);
-        }
-
-
-        [HttpGet]
-        public IActionResult History()
-        {
-            var temp = DBManager.getAllHistory();
             return Ok(temp);
         }
     }

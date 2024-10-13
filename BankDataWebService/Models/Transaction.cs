@@ -4,11 +4,11 @@
     {
         public int transactionID { get; set; }
 
-        public string transactionName { get; set; }
+        public string? transactionName { get; set; }
 
         public double transactionAmount { get; set; }
 
-        public string transactionType { get; set; }
+        public string? transactionType { get; set; }
 
         public DateTime transactionTime { get; set; }
     }

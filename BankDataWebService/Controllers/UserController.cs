@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankDataWebService.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         [HttpPost]
@@ -26,36 +28,43 @@ namespace BankDataWebService.Controllers
         }
 
         [HttpGet]
+        public IActionResult getAllUser()
+        {
+            var users = DBManager.getAllUsers();
+            if (users == null)
+            {
+                return NotFound(new { Message = "The list is empty" });
+            }
+            return Ok(users);
+        }
+
+        [HttpGet("email/{email}")]
         public IActionResult getUserByEmail(String email)
         {
-            if (email == null)
+            var temp = DBManager.getByUserEmail(email);
+
+            if (temp == null)
             {
                 return NotFound(new { Message = "Email not found" });
             }
             else
             {
-                DBManager.getByUserEmail(email);
-                return new ObjectResult(email)
-                {
-                    StatusCode = 200
-                };
+                return Ok(temp);
             }
         }
 
-        [HttpGet]
+        [HttpGet("username/{userName}")]
         public IActionResult getUserByName(String userName)
         {
-            if (userName == null)
+            var temp = DBManager.getByUserName(userName);
+
+            if (temp == null)
             {
                 return NotFound(new { Message = "User name not found" });
             }
             else
             {
-                DBManager.getByUserName(userName);
-                return new ObjectResult(userName)
-                {
-                    StatusCode = 200
-                };
+                return Ok(temp);
             }
         }
 

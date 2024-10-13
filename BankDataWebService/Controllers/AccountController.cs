@@ -28,16 +28,32 @@ namespace BankDataWebService.Controllers
         }
 
         [HttpGet]
+        public IActionResult getAllAccounts()
+        {
+            var accounts = DBManager.getAllAcounts();
+
+            if (accounts == null)
+            {
+                return NotFound(new { Message = "The list is empty" });
+            }
+            else
+            {
+                return Ok(accounts);
+            }
+        }
+
+        [HttpGet("{accountNumber}")]
         public IActionResult getAccount(int accountNumber)
         {
             var temp = DBManager.getByAccountNumber(accountNumber);
+
             if (temp == null)
             {
                 return NotFound(new { Message = "Account not found" });
             }
             else
             {
-                return new ObjectResult(accountNumber) { StatusCode = 200 };
+                return Ok(temp);
             }
         }
 

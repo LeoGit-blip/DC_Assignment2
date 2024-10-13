@@ -22,21 +22,18 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+DBManager.clearAccountTable();
+DBManager.clearUserTable();
+DBManager.clearTransactionTable();
+
+DBManager.CreateAccountTable();
+DBManager.CreateUserTable();
+DBManager.CreateTransactionTable();
+
 var users = DBManager.generateUsers(10);
-var accounts = DBManager.generateAccounts(10, users);
+var accounts = DBManager.generateAccounts(10);
 var transactions = DBManager.generateTransaction(10);
 
-foreach(var user in users)
-{
-    DBManager.insertUser(user);
-}
-foreach (var account in accounts)
-{
-    DBManager.insertAccount(account);
-}
-foreach (var transaction in transactions)
-{
-    DBManager.insertTransaction(transaction);
-}
+DBManager.dataSeeding(users, accounts, transactions);
 
 app.Run();
