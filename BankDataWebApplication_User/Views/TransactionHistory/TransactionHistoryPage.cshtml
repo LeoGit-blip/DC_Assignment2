@@ -6,11 +6,14 @@
 <div id="TransactionHistoryPage">
     <h2><b><u>Transaction History</u></b></h2>
     <!-- recepient's name, date, amount, description  -->
-    <label for="username">User Name</label>
-    <input type="text" id="UsernameID" name="Username" placeholder="Username" />
+    <label for="date">Search by Date</label>
+    <input type="date" id="DateInputID" name="Date" placeholder="Date" />
+    <button type="button" id="FilterID" onclick="performAuth()">Search</button>  <!-- filter by date -->
 
-    <label for="password">Password</label>
-    <input type="password" id="PasswordID" name="Password" placeholder="Password" />
-    
-    <button type="button" id="FilterID" onclick="performAuth()">Login</button>  <!-- filter by date -->
+    <ul id="TransactionHistoryList">
+        <li> <b> Date: </b><span id="DisplayDateID">10/13/2024</span></li>
+        <li> <b> Recipient's Name: </b> <span id="DisplayRecipientNameID">Recipient's Name Example</span></li>
+        <li> <b> Amount:</b> <span id="DisplayAmountID">100</span></li>
+        <li> <b> Description: </b><span id="DisplayDescriptionID">Lunch Payment</span></li>
+    </ul>
 </div>
