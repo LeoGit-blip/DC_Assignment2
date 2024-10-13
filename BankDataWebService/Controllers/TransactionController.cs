@@ -29,38 +29,55 @@ namespace BankDataWebService.Controllers
         }
 
         [HttpPost]
-        public IActionResult deposit([FromBody] Transaction transaction, int accountNumber)
+        public IActionResult deposit([FromBody] Transaction transaction, int account1, int account2)
         {
-            var temp = DBManager.getByAccountNumber(accountNumber);
+            var temp1 = DBManager.getByAccountNumber(account1);
+            var temp2 = DBManager.getByAccountNumber(account2);
 
-            if (transaction == null || transaction.transactionAmount <= 0)
+            if (temp1 == null || temp2 == null)
             {
-                return BadRequest(new { Message = "Amount cannot be negative" });
+                return BadRequest(new { Message = "Account cannot be found" });
             }
-            if(accountNumber == null)
+            if(transaction == null || transaction.transactionAmount <= 0)
             {
-                return BadRequest(new { Message = "Amount didnt exist" });
+                return BadRequest(new { Message = "Amount cannot be less than zero" });
             }
-            return Ok(temp);
+            if (temp1.balance < transaction.transactionAmount)
+            {
+                return BadRequest(new { Message = "Insufficient balance" });
+            }
+            else
+            {
+                temp1.balance -= transaction.transactionAmount;
+                temp2.balance += transaction.transactionAmount;
+                createTransaction(transaction);
+            }
+            return Ok(temp2);
         }
 
-        [HttpPost]
+        [HttpPost()]
         public IActionResult withdraw([FromBody] Transaction transaction, int accountNumber)
         {
             var temp = DBManager.getByAccountNumber(accountNumber);
 
+            if (temp == null)
+            {
+                return BadRequest(new { Message = "Account cannot be found" });
+            }
             if (transaction == null || transaction.transactionAmount <= 0)
             {
-                return BadRequest(new { Message = "Amount cannot be negative" });
+                return BadRequest(new { Message = "Amount withdraw cannot be less than zero" });
             }
-            else if (accountNumber == null)
+            if(temp.balance < transaction.transactionAmount)
             {
-                return BadRequest(new { Message = "Amount didnt exist" });
+                return BadRequest(new { Message = "Insufficient balance" });
             }
             else
             {
-                return Ok(temp);
+                temp.balance += transaction.transactionAmount;
+                createTransaction(transaction);
             }
+            return Ok(temp);
         }
 
 

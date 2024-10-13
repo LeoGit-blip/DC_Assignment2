@@ -588,7 +588,7 @@ namespace BankDataWebService.Data
             return accountsList;
         }
 
-        public List<User> generateUsers(int count)
+        public static List<User> generateUsers(int count)
         {
             var users = new List<User>();
             
@@ -612,7 +612,7 @@ namespace BankDataWebService.Data
                 .Select(s => s[random.Next(s.Length)]).ToArray() );
         }
 
-        public List<Transaction> generateTransaction(int count)
+        public static List<Transaction> generateTransaction(int count)
         {
             var transactionList = new List<Transaction>();
             for(int i =0; i<count; i++)
