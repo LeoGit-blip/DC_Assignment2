@@ -213,6 +213,21 @@ div#home-page-navigation li {
         font-weight: 500;
     }
 
+/* Transaction History Page */
+#TransactionHistoryPage h2 {
+    font-family: 'Betm Rounded';
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+    /* ul - container */
+    #TransactionHistoryList {
+        list-style-type: none;
+        margin-top:50px;
+        padding:0px;
+        margin-bottom:20px;
+    }
+
 /* Money Transfer Page */
 #MoneyTransferPage {
     display: flex;
