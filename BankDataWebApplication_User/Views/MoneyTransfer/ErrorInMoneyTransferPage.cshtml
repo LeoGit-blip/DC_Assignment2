@@ -3,3 +3,15 @@
 *@
 @{
 }
+<div id="MoneyTransferPage">
+    <p style="color:darkred;">Error in transfer process. Please try again.</p>
+    <label for="recipientname">Recipient's Name</label>
+    <input type="text" id="RecipientNameID" name="RecipientName" placeholder="Recipient's Name" />
+    <label for="amount">Amount</label>
+    <input type="number" id="AmountID" name="Amount" placeholder="Amount" />
+    <label for="date">Date</label>
+    <input type="date" id="DateID" name="Date" placeholder="Date" />
+    <label for="description">Description (max: 30 characters) </label>
+    <input type="text" id="DescriptionID" name="Description" placeholder="Description" maxlength="30" />
+    <button type="button" id="LoginButtonID" onclick="performAuth()">Transfer</button>
+</div>

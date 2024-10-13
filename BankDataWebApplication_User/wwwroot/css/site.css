@@ -87,6 +87,12 @@ div#home-page-navigation li {
             color: white; /* font color */
         }
 
+/* moving text style */
+#Marquee {
+    background-color: darkcyan;
+    font-family:'Betm Rounded';
+    font-size: larger;
+}
 /* login page */
 #LoginPage {
     display: flex;
@@ -123,10 +129,38 @@ div#home-page-navigation li {
     align-content: center;
     justify-content: center;
 }
-    #UserProfileInformationPage ul {
-        list-style-type: none;
-        align-content: center;
-        justify-content: center;
+
+#UserProfileInformationPage ul {
+    list-style-type: none;
+    align-content: center;
+    justify-content: center;
+}
+
+#UserProfileInformationPage li {
+    flex: 1; /* same length */
+    line-height: 120px;
+    padding-left:10px;
+    border: 2px ridge black;
+    border-radius:10px;
+    font-size:larger;
+    font-family:Bahnschrift;
+}
+
+/* edit button in user profile information page */
+#EditID {
+    background-color: lightskyblue;
+    border: 3px solid black;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px;
+    width: 90px;
+}
+    #EditID:hover {
+        background-color: black;
+        opacity: 1.0;
+        color: white;
+        border: 3px solid black;
     }
 
 /* edit user information page */
@@ -177,6 +211,36 @@ div#home-page-navigation li {
     #UserAccountSummaryPage a {
         color: darkblue;
         font-weight: 500;
+    }
+
+/* Money Transfer Page */
+#MoneyTransferPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+}
+
+    #MoneyTransferPage input,
+    #MoneyTransferPage button {
+        margin: 5px;
+        width: 300px;
+        padding: 10px;
+    }
+
+#TransferID {
+    background-color: lightskyblue;
+    border: 3px solid black;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+    #TransferID:hover {
+        background-color: black;
+        color: white;
+        border: 3px solid black;
     }
 
 /* logout page */

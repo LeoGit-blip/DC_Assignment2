@@ -20,20 +20,21 @@
             <li><button disabled type="button" id="MoneyTransferID" onclick="checkLogin('moneyTransfer')">Money Transfer</button></li>
             <li><button disabled type="button" id="LogoutButtonID" onclick="checkLogin('logout')">Logout</button></li>
         </ul>
+        <marquee id="Marquee" direction="right" scrollamount="9"> -- DC's Banking System. Your Number 1 Choice. -- </marquee>
+
     </div>
 
-    <p id="LogoutPage">
-        @*
-        action: Login
-        controller name: LoginAccount
-        *@
-        Thanks for Using DC's Banking System!
-        @*
-        ,br> for line break - next paragraph
-        *@
-        <br>You Have Successfully Logged Out. Click <a href="@Url.Action("Login", "LoginAccount")">here</a> to login.
-    </p>
+    <div id="TransactionHistoryPage">
+        <h2><b><u>Transaction History</u></b></h2>
+        <!-- recepient's name, date, amount, description  -->
+        <label for="username">User Name</label>
+        <input type="text" id="UsernameID" name="Username" placeholder="Username" />
 
+        <label for="date">Search by Date</label>
+        <input type="date" id="DateInputID" name="Date" placeholder="Date" />
+
+        <button type="button" id="FilterID" onclick="performAuth()">Search</button>  <!-- filter by date -->
+    </div>
     <script src="~/js/site.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
 </body>
