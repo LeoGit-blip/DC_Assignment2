@@ -17,6 +17,206 @@ html {
   min-height: 100%;
 }
 
+.header, footer {
+    display: none;
+}
+
 body {
   margin-bottom: 60px;
 }
+
+div#header {
+    font-family: 'Betm Rounded';
+    font-size: larger;
+    text-align: center;
+    color: azure;
+    height: 70px;
+    border-bottom: dashed;
+    border-bottom-color: black;
+}
+
+body {
+    background-color: cadetblue;
+    height: 500px;
+}
+
+/* login page */
+#AdminLoginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+}
+
+    #AdminLoginPage input,
+    #AdminLoginPage button {
+        margin: 5px;
+        width: 300px;
+        padding: 10px;
+    }
+
+#LoginButtonID {
+    background-color: lightskyblue;
+    border: 3px solid black;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+    #LoginButtonID:hover {
+        background-color: black;
+        color: white;
+        border: 3px solid black;
+    }
+
+/* container block */
+div#AdminHomePage ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex; /* for same size button */
+    justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 10px;
+    border: 3px solid black;
+}
+
+/* button */
+div#AdminHomePage li {
+    flex: 1; /* same length */
+    border: 3px solid;
+    border-block-color: black;
+}
+
+    /* each button style */
+    div#AdminHomePage li button {
+        display: block;
+        width: 100%;
+        height: 80px;
+        color: black; /* font color */
+        border: none; /* no extra border */
+        text-align: center; /* text is aligned at center */
+        padding: 5px;
+        font-size: 16px;
+        font-weight: 500; /* bold */
+        font-family: Bahnschrift;
+        white-space: normal; /* wrap text */
+        background-color: aliceblue;
+        vertical-align: top;
+    }
+        /* button style after hovering on it */
+        div#AdminHomePage li button:hover {
+            background-color: black;
+            color: white; /* font color */
+        }
+
+/* buttons before login */
+div#AdminHomePage li button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+    div#AdminHomePage li button:disabled:hover {
+        background-color: black;
+        color: white;
+    }
+
+/* moving text style */
+#Marquee {
+    background-color: darkcyan;
+    font-family: 'Betm Rounded';
+    font-size: larger;
+}
+
+/* Admin Profile Information page */
+#AdminProfileInformationPage h2 {
+    font-family: 'Betm Rounded';
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#AdminProfileInformationPage ul {
+    list-style-type: none;
+    align-content: center;
+    justify-content: center;
+}
+
+#AdminProfileInformationPage li {
+    flex: 1; /* same length */
+    line-height: 120px;
+    padding-left: 10px;
+    border: 2px ridge black;
+    border-radius: 10px;
+    font-size: larger;
+    font-family: Bahnschrift;
+}
+
+/* edit button in admin profile information page */
+#EditID {
+    background-color: lightskyblue;
+    border: 3px solid black;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px;
+    width: 90px;
+}
+
+    #EditID:hover {
+        background-color: black;
+        opacity: 1.0;
+        color: white;
+        border: 3px solid black;
+    }
+
+/* User Profile Information page */
+#UserManagementPage h2 {
+    font-family: 'Betm Rounded';
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#UserManagementPage ul {
+    list-style-type: none;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+#UserManagementPage li button{
+    flex: 1; /* same length */
+    font-size: larger;
+    margin-top:40px;
+    font-family: Bahnschrift;
+    height: 70px;
+    width:300px;
+    background-color:aliceblue;
+}
+    /* button style after hovering on it */
+    div#UserManagementPage li button:hover {
+        background-color: black;
+        color: white; /* font color */
+    }
+
+#Searching {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+/* logout page */
+#AdminLogoutPage {
+    font-family: 'Betm Rounded';
+    font-size: larger;
+}
+
+    /* logout page link (here) style */
+    #AdminLogoutPage a {
+        color: darkblue;
+        font-weight: 500;
+    }
+
+
+

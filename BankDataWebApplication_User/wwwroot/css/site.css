@@ -93,6 +93,7 @@ div#home-page-navigation li {
     font-family:'Betm Rounded';
     font-size: larger;
 }
+
 /* login page */
 #LoginPage {
     display: flex;

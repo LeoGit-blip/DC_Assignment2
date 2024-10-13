@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div id="UserManagementPage">
+    <h2><b><u>User Management</u></b></h2>
+    <!-- searching (filter data) -->
+    <div id="Searching">
+        <label for="name" style="padding-right:20px">Search By: </label>
+        <select name="data" id="data">
+            <option value="Mame">Name</option>
+            <option value="Account Number">Account Number</option>
+        </select>
+        <button type="button" id="FilterID" onclick="filterInfo()">Search </button>  <!-- filter  -->
+    </div>
+
+    <!-- display users list -->
+    <ul>
+        <li> <b> User Name: </b> <span id="DisplayUserNameID">Example Name</span></li>
+        <li> <b> Email Address: </b><span id="DisplayEmailAddressID">example_email@gmail.com</span></li>
+        <li> <b> Phone Number:</b> <span id="DisplayPhoneNumberID"> 0123456789</span></li> <!-- 10 numbers -->
+        <li> <b> Account Number: </b><span id="DisplayAccountNumberID"> 12345678</span></li> <!-- 8 numbers -->
+        <li> <b> Balance: </b><span id="DisplayBalanceID"> 10000</span></li> <!-- >= 1 numbers -->
+    </ul>
+
+    <!-- buttons - 3 options (create, edit, deactivate) -->
+    <ul>
+        <li> <button type="button" id="CreateAccID" onclick="loadView()">Create New User</button></li>
+        <li> <button type="button" id="EditAccID" onclick="loadView()">Edit User Account</button></li>
+        <li> <button type="button" id="DeactivateAccID" onclick="loadView()">Deactive Account</button></li>
+    </ul>
+</div>

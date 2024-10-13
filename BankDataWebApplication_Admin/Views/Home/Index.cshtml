@@ -1,8 +1,54 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Page</title>
+    <link rel="stylesheet" href="~/css/site.css">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+</head>
+<body>
+    <div id="header">
+        <h1 class="display-4">~DC's Banking System~</h1>
+    </div>
+    <div id="AdminHomePage">
+        <ul>
+            <li> <button type="button" id="LoginButtonID" onclick="loadView()">Login</button></li>
+            <!-- disable button before login -->
+            <li> <button disabled type="button" id="AdminProfileInformationID" onclick="loadView()">Profile Information</button></li>
+            <li> <button disabled type="button" id="UserManagementID" onclick="loadView()">User Management</button></li>
+            <li> <button disabled type="button" id="TransactionManagementID" onclick="loadView()">Transaction Management</button></li>
+            <li> <button disabled type="button" id="LogsAndAuditTrailsID" onclick="loadView()">Logs and Audit Trails</button></li>
+            <li><button disabled type="button" id="AdminLogoutButtonID" onclick="checkLogin('logout')">Logout</button></li>
+
+        </ul>
+        <marquee id="Marquee" direction="right" scrollamount="9"> -- DC's Banking System. Your Number 1 Choice. -- </marquee>
+
+    </div>
+    <div id="TransactionHistoryPage">
+        <h2><b><u>Transaction Management</u></b></h2>
+        <!-- recepient's name, date, amount, description  -->
+        <label for="name" style="padding-right:20px">Search By: </label>
+        <select name="data" id="data">
+            <option value="Mame">Name1</option>      
+            <option value="Mame">Name2</option>      
+            <option value="Mame">Name3</option>      
+            <option value="Mame">Name4</option>      
+            <option value="Mame">Name5</option>      
+            <option value="Mame">Name6</option>      
+        </select>
+        <button type="button" id="FilterID" onclick="filterInfo()">Search </button>  <!-- filter  -->
+
+        <ul id="TransactionHistoryList">
+            <li> <b> Date: </b><span id="DisplayDateID">10/13/2024</span></li>
+            <li> <b> Recipient's Name: </b> <span id="DisplayRecipientNameID">Recipient's Name Example</span></li>
+            <li> <b> Amount:</b> <span id="DisplayAmountID">100</span></li>
+            <li> <b> Description: </b><span id="DisplayDescriptionID">Lunch Payment</span></li>
+        </ul>
+    </div>
+
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</body>
+</html>
