@@ -14,7 +14,7 @@
     </div>
     <div id="AdminHomePage">
         <ul>
-            <li> <button type="button" id="LoginButtonID" onclick="loadView()">Login</button></li>
+            <li> <button type="button" id="LoginButtonID" onclick="loadView('login')">Login</button></li>
             <!-- disable button before login -->
             <li> <button disabled type="button" id="AdminProfileInformationID" onclick="loadView()">Profile Information</button></li>
             <li> <button disabled type="button" id="UserManagementID" onclick="loadView()">User Management</button></li>
@@ -26,6 +26,8 @@
         <marquee id="Marquee" direction="right" scrollamount="9"> -- DC's Banking System. Your Number 1 Choice. -- </marquee>
 
     </div>
+
+    <div id="main"></div>
 
     <script src="~/js/site.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
