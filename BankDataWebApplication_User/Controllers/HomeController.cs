@@ -4,6 +4,8 @@ using System.Diagnostics;
 
 namespace BankDataWebApplication_User.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

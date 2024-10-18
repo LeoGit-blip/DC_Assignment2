@@ -7,6 +7,8 @@ using ErrorViewModel = BankDataWebApplication_Admin.Models.ErrorViewModel;
 
 namespace BankDataWebApplication_Admin.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
