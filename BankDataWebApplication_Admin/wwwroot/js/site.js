@@ -8,6 +8,9 @@ function loadView(status) {
         case 'login':
             apiUrl = `${API_BASE_URL}/login`;
             break;
+        case 'authview':
+            apiUrl = `${API_BASE_URL}/authview`;
+            break;
         case 'profile':
             apiUrl = `${API_BASE_URL}/profile`;
             break;
@@ -39,76 +42,53 @@ function loadView(status) {
         })
         .then(data => {
             document.getElementById('main').innerHTML = data;
-            initializeView(status);
         })
         .catch(error => {
             console.error('Fetch error:', error);
         });
 }
+function performAuth() {
 
-function initializeView(status) {
-    switch (status) {
-        case 'login':
-            setupLoginForm();
-            break;
-        // Add other cases for different views 
-    }
-}
+    var name = document.getElementById('UsernameID').value;
+    var password = document.getElementById('PasswordID').value;
+    var data = {
+        UserName: name,
+        PassWord: password
+    };
+    console.error(data);
+    const apiUrl = '/api/admin/auth';
 
-function setupLoginForm() {
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            performLogin();
-        });
-    }
-}
+    const headers = {
+        'Content-Type': 'application/json', // Specify the content type as JSON if you're sending JSON data
+        // Add any other headers you need here
+    };
 
-function performLogin() {
-    const username = document.getElementById('UsernameID').value;
-    const password = document.getElementById('PasswordID').value;
-
-    fetch(`${API_BASE_URL}/login`, {
+    const requestOptions = {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Login successful!');
-                enableDashboardButtons();
-                loadView('profile');
-            } else {
-                alert('Login failed. Please check your credentials.');
+        headers: headers,
+        body: JSON.stringify(data) // Convert the data object to a JSON string
+    };
+
+    fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
         })
-        .catch(error => console.error('Error during login:', error));
-}
+        .then(data => {
+            // Handle the data from the API
+            const jsonObject = data;
+            if (jsonObject.login) {
+                loadView("authview");
+            }
+            else {
+                loadView("error");
+            }
 
-function enableDashboardButtons() {
-    const buttons = ['AdminProfileInformationID', 'UserManagementID', 'TransactionManagementID', 'LogsAndAuditTrailsID', 'AdminLogoutButtonID'];
-    buttons.forEach(id => {
-        const button = document.getElementById(id);
-        if (button) {
-            button.disabled = false;
-        }
-    });
-    document.getElementById('LoginButtonID').disabled = true;
-}
-
-function handleLogout() {
-    const buttons = ['AdminProfileInformationID', 'UserManagementID', 'TransactionManagementID', 'LogsAndAuditTrailsID', 'AdminLogoutButtonID'];
-    buttons.forEach(id => {
-        const button = document.getElementById(id);
-        if (button) {
-            button.disabled = true;
-        }
-    });
-    document.getElementById('LoginButtonID').disabled = false;
-    document.getElementById('main').innerHTML = '';
-    loadView('login');
+        })
+        .catch(error => {
+            // Handle any errors that occurred during the fetch
+            console.error('Fetch error:', error);
+        });
 }
