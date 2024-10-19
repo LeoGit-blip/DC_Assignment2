@@ -1,4 +1,5 @@
-﻿using BankDataWebService.Models;
+﻿using BankDataWebService.Data;
+using BankDataWebService.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankDataWebApplication_Admin.Controllers
@@ -15,6 +16,13 @@ namespace BankDataWebApplication_Admin.Controllers
         [HttpGet("login")]
         public IActionResult GetLoginPage()
         {
+            var userlist = DBManager.getAllUsers();
+
+            foreach (User user in userlist)
+            {
+                Console.WriteLine(user.userName + " " + user.password);
+            }
+
             if (Request.Cookies.ContainsKey("SessionID"))
             {
                 var cookieValue = Request.Cookies["SessionID"];
@@ -37,15 +45,17 @@ namespace BankDataWebApplication_Admin.Controllers
         {
             // Return the partial view as HTML
             var response = new { login = false};
-            
 
-            if (user!=null && user.userName.Equals("User1") && user.password.Equals("09UJOJ45LP"))
+            Console.WriteLine(user.userName + " " +user.password);
+            var userlist = DBManager.getByUserName(user.userName);
+            Console.WriteLine(userlist.userName+ " " + userlist.password);
+
+            if (user!=null && user.userName.Equals(userlist.userName) && user.password.Equals(userlist.password))
             {
                 Response.Cookies.Append("SessionID", "1234567");
                 response = new { login = true };
             }
             return Json(response);
-            
         }
 
         [HttpGet("authview")]

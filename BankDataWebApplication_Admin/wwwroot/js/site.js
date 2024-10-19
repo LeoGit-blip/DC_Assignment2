@@ -1,5 +1,7 @@
 ﻿// Base URL for API endpoints
 const API_BASE_URL = '/api/admin';
+const API_Logout_URL = '/api/logout';
+const API_Profile_URL = '/api/adminprofile';
 
 function loadView(status) {
     let apiUrl = `${API_BASE_URL}`;
@@ -12,7 +14,7 @@ function loadView(status) {
             apiUrl = `${API_BASE_URL}/authview`;
             break;
         case 'profile':
-            apiUrl = `${API_BASE_URL}/profile`;
+            apiUrl = `${API_Profile_URL}`;
             break;
         case 'usermanagement':
             apiUrl = `${API_BASE_URL}/usermanagement`;
@@ -24,7 +26,8 @@ function loadView(status) {
             apiUrl = `${API_BASE_URL}/auditlogs`;
             break;
         case 'logout':
-            apiUrl = `${API_BASE_URL}/logout`;
+            apiUrl = `${API_Logout_URL}`;
+            disableAdminButtons()
             break;
         case 'error':
             apiUrl = `${API_BASE_URL}/error`;
@@ -81,6 +84,7 @@ function performAuth() {
             const jsonObject = data;
             if (jsonObject.login) {
                 loadView("authview");
+                enableAdminButtons();
             }
             else {
                 loadView("error");
@@ -91,4 +95,39 @@ function performAuth() {
             // Handle any errors that occurred during the fetch
             console.error('Fetch error:', error);
         });
+}
+
+function disableAdminButtons() {
+    console.log("Buttons Enabled");
+    const buttonIds = [
+        'AdminProfileInformationID',
+        'UserManagementID',
+        'TransactionManagementID',
+        'LogsAndAuditTrailsID',
+        'AdminLogoutButtonID'
+    ];
+
+    buttonIds.forEach(id => {
+        const button = document.getElementById(id);
+        if (button) {
+            button.disabled = true;
+        }
+    });
+}
+
+function enableAdminButtons() {
+    const buttonIds = [
+        'AdminProfileInformationID',
+        'UserManagementID',
+        'TransactionManagementID',
+        'LogsAndAuditTrailsID',
+        'AdminLogoutButtonID'
+    ];
+
+    buttonIds.forEach(id => {
+        const button = document.getElementById(id);
+        if (button) {
+            button.disabled = false;
+        }
+    });
 }

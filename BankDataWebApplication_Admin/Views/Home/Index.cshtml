@@ -16,11 +16,11 @@
         <ul>
             <li> <button type="button" id="LoginButtonID" onclick="loadView('login')">Login</button></li>
             <!-- disable button before login -->
-            <li> <button disabled type="button" id="AdminProfileInformationID" onclick="loadView()">Profile Information</button></li>
+            <li> <button disabled type="button" id="AdminProfileInformationID" onclick="loadView('profile')">Profile Information</button></li>
             <li> <button disabled type="button" id="UserManagementID" onclick="loadView()">User Management</button></li>
             <li> <button disabled type="button" id="TransactionManagementID" onclick="loadView()">Transaction Management</button></li>
             <li> <button disabled type="button" id="LogsAndAuditTrailsID" onclick="loadView()">Logs and Audit Trails</button></li>
-            <li><button disabled type="button" id="AdminLogoutButtonID" onclick="checkLogin('logout')">Logout</button></li>
+            <li><button disabled type="button" id="AdminLogoutButtonID" onclick="loadView('logout')">Logout</button></li>
 
         </ul>
         <marquee id="Marquee" direction="right" scrollamount="9"> -- DC's Banking System. Your Number 1 Choice. -- </marquee>
