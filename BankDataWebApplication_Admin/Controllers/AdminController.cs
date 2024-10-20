@@ -23,6 +23,8 @@ namespace BankDataWebApplication_Admin.Controllers
                 Console.WriteLine(user.userName + " " + user.password);
             }
 
+            Response.Cookies.Delete("SessionID");
+
             if (Request.Cookies.ContainsKey("SessionID"))
             {
                 var cookieValue = Request.Cookies["SessionID"];
