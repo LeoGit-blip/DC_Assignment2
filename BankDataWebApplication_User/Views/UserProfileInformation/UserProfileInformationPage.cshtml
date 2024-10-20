@@ -11,5 +11,10 @@
         <li> <b> Email Address: </b><span id="DisplayEmailAddressID">example_email@gmail.com</span></li>
         <li> <b> Phone Number: </b> <span id="DisplayPhoneNumberID"> 0123456789</span></li> <!-- 10 numbers -->
     </ul>
-    <button type="button" id="EditID" onclick="editUserInformation()">Edit</button>
+
+    <!-- button with links -->
+    <p id="ToEditUserProfilePage">
+        <a href="@Url.Action("Edit", "EditProfile")" id="EditID" onclick="editUserInformation()">Edit Profile</a>
+    </p>
+
 </div>

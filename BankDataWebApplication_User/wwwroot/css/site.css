@@ -23,12 +23,12 @@ html {
 
 div#header {
     font-family: 'Betm Rounded';
-    font-size:larger;
-    text-align:center;
+    font-size: larger;
+    text-align: center;
     color: azure;
     height: 70px;
-    border-bottom:dashed;
-    border-bottom-color:black;
+    border-bottom: dashed;
+    border-bottom-color: black;
 }
 
 body {
@@ -44,7 +44,7 @@ div#home-page-navigation li button:disabled {
 
     div#home-page-navigation li button:disabled:hover {
         background-color: black;
-        color:white;
+        color: white;
     }
 
 /* container block */
@@ -90,7 +90,7 @@ div#home-page-navigation li {
 /* moving text style */
 #Marquee {
     background-color: darkcyan;
-    font-family:'Betm Rounded';
+    font-family: 'Betm Rounded';
     font-size: larger;
 }
 
@@ -102,6 +102,7 @@ div#home-page-navigation li {
     justify-content: center;
     height: 400px;
 }
+
     #LoginPage input,
     #LoginPage button {
         margin: 5px;
@@ -110,11 +111,11 @@ div#home-page-navigation li {
     }
 
 #LoginButtonID {
-    background-color:lightskyblue;
+    background-color: lightskyblue;
     border: 3px solid black;
     color: black;
-    font-size:18px;
-    font-weight:500;
+    font-size: 18px;
+    font-weight: 500;
 }
 
     #LoginButtonID:hover {
@@ -140,11 +141,11 @@ div#home-page-navigation li {
 #UserProfileInformationPage li {
     flex: 1; /* same length */
     line-height: 120px;
-    padding-left:10px;
+    padding-left: 10px;
     border: 2px ridge black;
-    border-radius:10px;
-    font-size:larger;
-    font-family:Bahnschrift;
+    border-radius: 10px;
+    font-size: larger;
+    font-family: Bahnschrift;
 }
 
 /* edit button in user profile information page */
@@ -157,6 +158,7 @@ div#home-page-navigation li {
     padding: 10px;
     width: 90px;
 }
+
     #EditID:hover {
         background-color: black;
         opacity: 1.0;
@@ -164,6 +166,21 @@ div#home-page-navigation li {
         border: 3px solid black;
     }
 
+
+#EditUserPersonalInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+}
+
+#EditUserInformationPage input,
+#EditUserInformationPage button {
+    margin: 5px;
+    width: 300px;
+    padding: 10px;
+}
 /* edit user information page */
 #EditUserInformationPage {
     display: flex;
@@ -176,9 +193,11 @@ div#home-page-navigation li {
     #EditUserInformationPage input,
     #EditUserInformationPage button {
         margin: 5px;
-        width: 300px; 
+        width: 300px;
         padding: 10px;
     }
+
+
 
 #SaveID {
     background-color: lightskyblue;
@@ -203,16 +222,16 @@ div#home-page-navigation li {
     justify-content: center;
 }
 
-    #UserAccountSummaryPage ul {
-        list-style-type: none;
-        align-content:center;
-        justify-content: center;
-    }
-    /* user account summary page link (here) style */
-    #UserAccountSummaryPage a {
-        color: darkblue;
-        font-weight: 500;
-    }
+#UserAccountSummaryPage ul {
+    list-style-type: none;
+    align-content: center;
+    justify-content: center;
+}
+/* user account summary page link (here) style */
+#UserAccountSummaryPage a {
+    color: darkblue;
+    font-weight: 500;
+}
 
 /* Transaction History Page */
 #TransactionHistoryPage h2 {
@@ -221,13 +240,26 @@ div#home-page-navigation li {
     align-content: center;
     justify-content: center;
 }
-    /* ul - container */
-    #TransactionHistoryList {
-        list-style-type: none;
-        margin-top:50px;
-        padding:0px;
-        margin-bottom:20px;
-    }
+/* table style - transaction history page */
+table, th, td {
+    border: 3px solid;
+}
+
+table {
+    width: 100%;
+    font-size: 18px;
+    font-family: 'Betm Rounded';
+    font-stretch: expanded;
+    margin-top: 40px;
+}
+
+th, td {
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    background-color: wheat;
+    color: black;
+}
 
 /* Money Transfer Page */
 #MoneyTransferPage {
@@ -268,5 +300,6 @@ div#home-page-navigation li {
     /* logout page link (here) style */
     #LogoutPage a {
         color: darkblue;
-        font-weight: 500;
+        font-weight:  500;
+            
     }

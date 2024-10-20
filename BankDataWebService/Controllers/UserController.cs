@@ -8,21 +8,40 @@ namespace BankDataWebService.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("addUser")]
         public IActionResult CreateUser([FromBody] User user)
         {
             if (user == null)
             {
                 return BadRequest(new { Message = "Detect user is null" });
             }
+            if (user.userName == null)
+            {
+                return BadRequest(new { Message = "Detect userName is null" });
+            }
+            if (user.email == null)
+            {
+                return BadRequest(new { Message = "Detect userEmail is null" });
+            }
+            if (user.address == null)
+            {
+                return BadRequest(new { Message = "Detect userAddress is null" });
+            }
+            if (user.phone == null)
+            {
+                return BadRequest(new { Message = "Detect userPhone is null" });
+            }
             else
             {
-                DBManager.insertUser(user);
-                var response = new { Message = "User create successfully" };
-                return new ObjectResult(response)
+                bool userInsert = DBManager.insertUser(user);
+                if (userInsert)
                 {
-                    StatusCode = 200,
-                    ContentTypes = { "application/json" }
+                    var response = new { Message = "User create successfully" };
+                    return new ObjectResult(response);
+                }
+                else
+                {
+                    return BadRequest(new { Message = "Cant insert user" });
                 };
             }
         }
@@ -38,7 +57,8 @@ namespace BankDataWebService.Controllers
             return Ok(users);
         }
 
-        [HttpGet("email/{email}")]
+        [HttpGet]
+        [Route("email/{email}")]
         public IActionResult getUserByEmail(String email)
         {
             var temp = DBManager.getByUserEmail(email);
@@ -53,11 +73,11 @@ namespace BankDataWebService.Controllers
             }
         }
 
-        [HttpGet("username/{userName}")]
-        public IActionResult getUserByName(String userName)
+        [HttpGet]
+        [Route("username/{UserName}")]
+        public IActionResult getUserByName(String UserName)
         {
-            var temp = DBManager.getByUserName(userName);
-
+            var temp = DBManager.getByUserName(UserName);
             if (temp == null)
             {
                 return NotFound(new { Message = "User name not found" });
@@ -69,41 +89,42 @@ namespace BankDataWebService.Controllers
         }
 
         [HttpPut]
-        public IActionResult updateUser(string email, string userName, [FromBody] User user)
+        [Route("update/{UserName}")]
+        public IActionResult updateUser(string UserName, [FromBody] User user)
         {
-            var tempEmail = getUserByEmail(email);
-            var tempName = getUserByName(userName);
-
-            if (tempEmail == null)
+            if (user == null)
             {
                 return NotFound(new { Message = "Email not found" });
             }
-            if (tempName == null)
+            if (user.userName == null || user.email == null || user.address == null || user.password == null || user.phone == null)
             {
-                return NotFound(new { Message = "User Name not found" });
+                return BadRequest(new { Message = "Some fields are required" });
             }
-            else if (DBManager.updateUser(user))
+            user.userName = UserName;
+            bool userUpdate = DBManager.updateUser(user, UserName);
+            if (userUpdate)
             {
                 var response = new { Message = "Account update successfully" };
-                return new ObjectResult(response)
-                {
-                    StatusCode = 200,
-                    ContentTypes = { "application/json" }
-                };
+                return Ok(response);
             }
-            return BadRequest("Could not update");
+            else
+            {
+                return BadRequest("Could not update");
+            }
         }
 
         [HttpDelete]
-        public IActionResult deleteUser(User user)
+        [Route("delete/email/{email}")]
+        public IActionResult deleteUserByEmail(String email)
         {
-            if (user == null)
+            var temp = DBManager.getByUserEmail(email);
+            if (temp == null)
             {
                 return NotFound(new { Message = "User not found" });
             }
             else
             {
-                DBManager.deleteUser(user);
+                DBManager.deleteUserByEmail(temp);
                 var response = new { Message = "User delete successfully" };
                 return new ObjectResult(response)
                 {
@@ -111,6 +132,20 @@ namespace BankDataWebService.Controllers
                     ContentTypes = { "application/json" }
                 };
             }
+        }
+
+        [HttpDelete]
+        [Route("delete/UserName/{UserName}")]
+        public IActionResult deleteUserByName(String UserName)
+        {
+            var temp = DBManager.getByUserName(UserName);
+            if (DBManager.deleteUserByName(temp))
+            {
+                var response = new { Message = "User delete successfully" };
+                return Ok(response);
+
+            }
+            return NotFound(new { Message = "User not found" });
         }
     }
 }

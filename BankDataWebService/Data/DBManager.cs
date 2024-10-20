@@ -19,12 +19,12 @@ namespace BankDataWebService.Data
                     {
                         command.CommandText = @"
                     CREATE TABLE AccountTable (
-                        AccountNumber INTEGER PRIMARY KEY AUTOINCREMENT,
+                        AccountNumber INTEGER PRIMARY KEY,
                         Balance INTEGER,
                         HolderName TEXT NOT NULL,
                         PhoneNumber INTEGER,
-                        Email TEXT NOT NULL
-                    )";
+                        Email TEXT NOT NULL,
+                    );";
                         command.ExecuteNonQuery();
                         connection.Close();
                     }
@@ -49,7 +49,7 @@ namespace BankDataWebService.Data
                     {
                         command.CommandText = @"
                     CREATE TABLE UserTable (
-                        Email TEXT PRIMARY KEY,
+                        Email TEXT,
                         UserName TEXT,
                         Address TEXT NOT NULL,
                         Password TEXT NOT NULL,
@@ -84,7 +84,7 @@ namespace BankDataWebService.Data
                         TransactionAmount DOUBLE,
                         TransactionType TEXT NOT NULL CHECK (TransactionType IN ('Deposit','Withdraw')),
                         TransactionTime DATETIME DEFAULT CURRENT_TIMESTAMP
-                    )";
+                    );";
                         command.ExecuteNonQuery();
                         connection.Close();
                     }
@@ -109,7 +109,7 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                        INSERT INTO AccountTable (AccountNumber, Balance, HolderName, PhoneNumber, Email)
+                        INSERT INTO AccountTable(AccountNumber, Balance, HolderName, PhoneNumber, Email)
                         VALUES (@AccountNumber, @Balance, @HolderName, @PhoneNumber, @Email)";
 
                         command.Parameters.AddWithValue("@AccountNumber", account.accountNumber);
@@ -185,11 +185,9 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                        INSERT INTO TransactionTable (TransactionName, TransactionAmount, TransactionType, TransactionTime)
-                        VALUES (@TransactionName, @TransactionAmount, @TransactionType, @TransactionTime)";
+                        INSERT INTO TransactionTable (TransactionAmount, TransactionType, TransactionTime)
+                        VALUES (@TransactionAmount, @TransactionType, @TransactionTime)";
 
-                        command.Parameters.AddWithValue("@TransactionID", transaction.transactionID);
-                        command.Parameters.AddWithValue("@TransactionName", transaction.transactionName);
                         command.Parameters.AddWithValue("@TransactionAmount", transaction.transactionAmount);
                         command.Parameters.AddWithValue("@TransactionType", transaction.transactionType);
                         command.Parameters.AddWithValue("@TransactionTime", transaction.transactionTime);
@@ -214,6 +212,11 @@ namespace BankDataWebService.Data
 
         public static bool deleteAccount(Account account)
         {
+            if (account == null)
+            {
+                Console.WriteLine("Account not exist");
+                return false;
+            }
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -243,8 +246,13 @@ namespace BankDataWebService.Data
             return false;
         }
 
-        public static bool deleteUser(User user)
+        public static bool deleteUserByName(User user)
         {
+            if (user == null)
+            {
+                Console.WriteLine("Email not exist");
+                return false;
+            }
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -254,10 +262,82 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = $"DELETE FROM UserTable WHERE UserName = @UserName";
-                        command.CommandText = $"DELETE FROM UserTable WHERE Email = @Email";
 
                         command.Parameters.AddWithValue("@UserName", user.userName);
+
+                        int rowsDeleted = command.ExecuteNonQuery();
+                        connection.Close();
+                        if (rowsDeleted > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    connection.Close();
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return false;
+        }
+
+        public static bool deleteUserByEmail(User user)
+        {
+            if (user == null)
+            {
+                Console.WriteLine("Email not exist");
+                return false;
+            }
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SQLiteCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = $"DELETE FROM UserTable WHERE Email = @Email";
+
                         command.Parameters.AddWithValue("@Email", user.email);
+
+                        int rowsDeleted = command.ExecuteNonQuery();
+                        connection.Close();
+                        if (rowsDeleted > 0)
+                        {
+                            return true;
+                        }
+                    }
+                    connection.Close();
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return false;
+        }
+
+        public static bool deleteTransaction(Transaction transaction)
+        {
+            if (transaction == null)
+            {
+                Console.WriteLine("Transaction not exist");
+                return false;
+            }
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SQLiteCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = $"DELETE FROM TransactionTable WHERE TransactionID = @TransactionID";
+
+                        command.Parameters.AddWithValue("@TransactionID", transaction.transactionID);
 
                         int rowsDeleted = command.ExecuteNonQuery();
                         connection.Close();
@@ -279,6 +359,11 @@ namespace BankDataWebService.Data
 
         public static bool updateAccount(Account account)
         {
+            if (account == null)
+            {
+                Console.WriteLine("Account not exist");
+                return false;
+            }
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -287,7 +372,7 @@ namespace BankDataWebService.Data
 
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
-                        command.CommandText = $"UPDATE AccountTable SET Balance = @Balance, HolderName = @HolderName, PhoneNumber = @PhoneNumebr, Email =@Email WHERE AccountNumber = @AccountNumber, ";
+                        command.CommandText = $"UPDATE AccountTable SET Balance = @Balance, HolderName = @HolderName, PhoneNumber = @PhoneNumber, Email = @Email WHERE AccountNumber = @AccountNumber";
 
                         command.Parameters.AddWithValue("@AccountNumber", account.accountNumber);
                         command.Parameters.AddWithValue("@Balance", account.balance);
@@ -313,40 +398,78 @@ namespace BankDataWebService.Data
             return false;
         }
 
-        public static bool updateUser(User user)
+        public static bool updateUser(User user, string oldUsername)
         {
+            Console.WriteLine($"DBManager: New username: {user.userName}, Old username: {oldUsername}");
+            if (user == null || string.IsNullOrEmpty(oldUsername))
+            {
+                Console.WriteLine("User is null or old username is empty");
+                return false;
+            }
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
                 {
                     connection.Open();
-
-                    using (SQLiteCommand command = connection.CreateCommand())
+                    using (SQLiteTransaction transaction = connection.BeginTransaction())
                     {
-                        command.CommandText = $"UPDATE UserTable SET UserName = @UserName, Email = @Email, Address = @Address, Password =@Password, Phone = @Phone";
-
-                        command.Parameters.AddWithValue("@UserName", user.userName);
-                        command.Parameters.AddWithValue("@Email", user.email);
-                        command.Parameters.AddWithValue("@Address", user.address);
-                        command.Parameters.AddWithValue("@Password", user.password);
-                        command.Parameters.AddWithValue("@Phone", user.phone);
-
-                        int rowsUpdated = command.ExecuteNonQuery();
-                        connection.Close();
-                        if (rowsUpdated > 0)
+                        try
                         {
-                            return true;
+                            // Check if the new username already exists (if it's different from the old one)
+                            if (user.userName != oldUsername)
+                            {
+                                using (SQLiteCommand checkUsernameCommand = connection.CreateCommand())
+                                {
+                                    checkUsernameCommand.CommandText = "SELECT COUNT(*) FROM UserTable WHERE UserName = @NewUserName";
+                                    checkUsernameCommand.Parameters.AddWithValue("@NewUserName", user.userName);
+                                    int usernameCount = Convert.ToInt32(checkUsernameCommand.ExecuteScalar());
+                                    if (usernameCount > 0)
+                                    {
+                                        Console.WriteLine("New username already exists");
+                                        return false;
+                                    }
+                                }
+                            }
+
+                            // Perform the update
+                            using (SQLiteCommand updateCommand = connection.CreateCommand())
+                            {
+                                updateCommand.CommandText = @"UPDATE UserTable 
+                                                      SET UserName = @UserName, 
+                                                          Email = @Email, 
+                                                          Address = @Address, 
+                                                          Password = @Password, 
+                                                          Phone = @Phone 
+                                                      WHERE UserName = @OldUserName";
+                                updateCommand.Parameters.AddWithValue("@UserName", user.userName);
+                                updateCommand.Parameters.AddWithValue("@Email", user.email);
+                                updateCommand.Parameters.AddWithValue("@Address", user.address);
+                                updateCommand.Parameters.AddWithValue("@Password", user.password);
+                                updateCommand.Parameters.AddWithValue("@Phone", user.phone);
+                                updateCommand.Parameters.AddWithValue("@OldUserName", oldUsername);
+
+                                int rowsUpdated = updateCommand.ExecuteNonQuery();
+                                if (rowsUpdated > 0)
+                                {
+                                    transaction.Commit();
+                                    return true;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error in transaction: {ex.Message}");
+                            transaction.Rollback();
                         }
                     }
-                    connection.Close();
                 }
                 return false;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine($"Error: {ex.Message}");
+                return false;
             }
-            return false;
         }
 
         public static List<Account> getAllAcounts()
@@ -444,7 +567,6 @@ namespace BankDataWebService.Data
                                 Transaction transaction = new Transaction();
                                 transaction.transactionID = Convert.ToInt32(reader["TransactionID"]);
                                 transaction.transactionAmount = Convert.ToDouble(reader["TransactionAmount"]);
-                                transaction.transactionName = reader["TransactionName"].ToString();
                                 transaction.transactionType = reader["TransactionType"].ToString();
                                 transaction.transactionTime = Convert.ToDateTime(reader["TransactionTime"]);
                                 transactionList.Add(transaction);
@@ -573,6 +695,42 @@ namespace BankDataWebService.Data
             return user;
         }
 
+        public static Transaction getTransactionID(int TransactionID)
+        {
+            Transaction transaction = null;
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SQLiteCommand command = connection.CreateCommand())
+                    {
+                        command.CommandText = "SELECT * FROM TransactionTable WHERE TransactionID = @TransactionID";
+                        command.Parameters.AddWithValue("@TransactionID", TransactionID);
+
+                        using (SQLiteDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                transaction = new Transaction();
+                                transaction.transactionID = Convert.ToInt32(reader["TransactionID"]);
+                                transaction.transactionAmount = Convert.ToInt32(reader["TransactionAmount"]);
+                                transaction.transactionType = reader["TransactionType"].ToString();
+                                transaction.transactionTime = Convert.ToDateTime(reader["TransactionTime"]);
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return transaction;
+        }
+
         public static bool clearAccountTable()
         {
             try
@@ -654,9 +812,9 @@ namespace BankDataWebService.Data
                 accountsList.Add(new Account
                 {
                     accountNumber = random.Next(1000, 9999),
-                    balance = random.Next(1000, 10000) + random.NextDouble(),
+                    balance = random.Next(1000, 100000),
                     holderName = randomString(10),
-                    phoneNumber = random.Next(10000,99999),
+                    phoneNumber = random.Next(10000, 99999),
                     email = $"user{i + 1}@example.com"
                 });
             }
@@ -666,8 +824,8 @@ namespace BankDataWebService.Data
         public static List<User> generateUsers(int count)
         {
             var usersList = new List<User>();
-            
-            for(int i = 0; i < count; i++)
+
+            for (int i = 0; i < count; i++)
             {
                 usersList.Add(new User
                 {
@@ -675,7 +833,7 @@ namespace BankDataWebService.Data
                     email = $"user{i + 1}@example.com",
                     password = randomString(10),
                     address = randomString(10),
-                    phone = random.Next(10000, 99999)
+                    phone = random.Next(10000, 99999),
                 });
             }
             return usersList;
@@ -685,19 +843,18 @@ namespace BankDataWebService.Data
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray() );
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         public static List<Transaction> generateTransaction(int count)
         {
             var transactionList = new List<Transaction>();
-            for(int i =0; i<count; i++)
+            for (int i = 0; i < count; i++)
             {
                 transactionList.Add(new Transaction
                 {
                     transactionType = random.Next(0, 2) == 0 ? "Deposit" : "Withdraw",
-                    transactionName = randomString(10),
-                    transactionAmount = random.NextDouble(),
+                    transactionAmount = random.Next(1, 100000),
                     transactionTime = DateTime.Now,
                     transactionID = 0
                 });

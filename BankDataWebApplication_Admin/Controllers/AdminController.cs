@@ -23,6 +23,8 @@ namespace BankDataWebApplication_Admin.Controllers
                 Console.WriteLine(user.userName + " " + user.password);
             }
 
+            Response.Cookies.Delete("SessionID");
+
             if (Request.Cookies.ContainsKey("SessionID"))
             {
                 var cookieValue = Request.Cookies["SessionID"];
@@ -46,9 +48,7 @@ namespace BankDataWebApplication_Admin.Controllers
             // Return the partial view as HTML
             var response = new { login = false};
 
-            Console.WriteLine(user.userName + " " +user.password);
             var userlist = DBManager.getByUserName(user.userName);
-            Console.WriteLine(userlist.userName+ " " + userlist.password);
 
             if (user!=null && user.userName.Equals(userlist.userName) && user.password.Equals(userlist.password))
             {
