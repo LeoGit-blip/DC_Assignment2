@@ -400,7 +400,6 @@ namespace BankDataWebService.Data
 
         public static bool updateUser(User user, string oldUsername)
         {
-            Console.WriteLine($"DBManager: New username: {user.userName}, Old username: {oldUsername}");
             if (user == null || string.IsNullOrEmpty(oldUsername))
             {
                 Console.WriteLine("User is null or old username is empty");
