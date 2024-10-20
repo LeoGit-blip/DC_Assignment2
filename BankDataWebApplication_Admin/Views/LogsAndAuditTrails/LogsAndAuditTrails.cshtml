@@ -1,10 +1,16 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 }
 <div id="LogsAndAuditTrailsPage">
     <h2><b><u>Logs And Audit Trails</u></b></h2>
+
+    <!-- Filtering options -->
+    <div id="filterOptions">
+        <input type="text" id="usernameFilter" placeholder="Filter by username">
+        <input type="text" id="actionFilter" placeholder="Filter by action">
+        <input type="date" id="fromDateFilter">
+        <input type="date" id="toDateFilter">
+        <button onclick="fetchLogs()">Apply Filters</button>
+    </div>
 
     <!-- display logs and audit trails in table -->
     <table border="2" id="LogsAndAuditTrailsTable">
@@ -22,3 +28,8 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    // Call fetchLogs when the page loads
+    document.addEventListener('DOMContentLoaded', fetchLogs);
+</script>

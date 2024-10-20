@@ -54,6 +54,10 @@ function loadView(status) {
             if (status == 'profile') {
                 performAdminProfile();
             }
+            else if (status == 'auditlogs')
+            {
+                fetchLogs();
+            }
         })
         .catch(error => {
             console.error('Fetch error:', error);
@@ -123,6 +127,7 @@ function createUser() {
             alert(data.message);
             document.getElementById('CreateNewUserSection').style.display = 'none';
             searchUsers();
+            logAction(`Created user: ${user.userName}`);
         })
         .catch(error => {
             console.error('Error creating user:', error);
@@ -148,6 +153,7 @@ function editUser() {
             alert(data.message);
             document.getElementById('EditNewUserSection').style.display = 'none';
             searchUsers();
+            logAction(`Edited user: ${username}`)
         })
         .catch(error => {
             console.error('Error editing user:', error);
@@ -164,6 +170,7 @@ function deactivateUser() {
             alert(data.message);
             document.getElementById('DeactivateUserSection').style.display = 'none';
             searchUsers();
+            logAction(`Deactivated user: ${username}`);
         })
         .catch(error => {
             console.error('Error deactivating user:', error);
@@ -178,6 +185,7 @@ function resetPassword() {
             .then(response => response.json())
             .then(data => {
                 alert(`${data.message}\nNew password: ${data.newPassword}`);
+                logAction(`Reset password for user: ${username}`);
             })
             .catch(error => {
                 console.error('Error resetting password:', error);
@@ -318,6 +326,61 @@ function saveUserInformation() {
 
 /* End Profile */
 
+/* Logs and Audit Trails */
+function fetchLogs() {
+    const username = document.getElementById('usernameFilter').value;
+    const action = document.getElementById('actionFilter').value;
+    const fromDate = document.getElementById('fromDateFilter').value;
+    const toDate = document.getElementById('toDateFilter').value;
+
+    const queryParams = new URLSearchParams({
+        username: username,
+        action: action,
+        fromDate: fromDate,
+        toDate: toDate
+    });
+
+    fetch(`${API_Log_URL}/fetch?${queryParams}`)
+        .then(response => response.json())
+        .then(logs => {
+            displayLogs(logs);
+        })
+        .catch(error => {
+            console.error('Error fetching logs:', error);
+        });
+}
+function displayLogs(logs) {
+    const tbody = document.querySelector('#LogsAndAuditTrailsTable tbody');
+    tbody.innerHTML = '';
+    logs.forEach(log => {
+        const row = `<tr>
+            <td>${new Date(log.timestamp).toLocaleString()}</td>
+            <td>${log.username}</td>
+            <td>${log.action}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+function logAction(action) {
+    const logEntry = {
+        username: data.UserName,
+        action: action
+    };
+
+    fetch(`${API_Log_URL}/log`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(logEntry)
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Action logged:', data);
+        })
+        .catch(error => {
+            console.error('Error logging action:', error);
+        });
+}
+
 /* Login */
 function performAuth() {
 
@@ -354,9 +417,11 @@ function performAuth() {
             if (jsonObject.login) {
                 loadView("authview");
                 enableAdminButtons();
+                logAction('Admin logged in');
             }
             else {
                 loadView("error");
+                logAction('Failed login attempt');
             }
 
         })
