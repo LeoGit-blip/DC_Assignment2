@@ -12,5 +12,5 @@
         <li> <b> Account Number: </b><span id="DisplayAccountNumberID"> 12345678</span></li> <!-- 8 numbers -->
         <li> <b> Balance: </b><span id="DisplayBalanceID"> 10000</span></li> <!-- >= 1 numbers -->
     </ul>
-    <p id="ToTransactionHistoryPage"> <br>Click <a href="@Url.Action("Login", "LoginAccount")">here</a> to view Transaction History. </p>
+    <p id="ToTransactionHistoryPage"> <br>Click <a onclick ="loadView('transaction');return false">here</a> to view Transaction History. </p>
 </div>
