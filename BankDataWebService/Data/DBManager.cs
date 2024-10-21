@@ -429,9 +429,27 @@ namespace BankDataWebService.Data
                                         return false;
                                     }
                                 }
+
+                                // Update username in AccountTable
+                                using (SQLiteCommand updateAccountCommand = connection.CreateCommand())
+                                {
+                                    updateAccountCommand.CommandText = "UPDATE AccountTable SET HolderName = @NewUserName WHERE HolderName = @OldUserName";
+                                    updateAccountCommand.Parameters.AddWithValue("@NewUserName", user.userName);
+                                    updateAccountCommand.Parameters.AddWithValue("@OldUserName", oldUsername);
+                                    updateAccountCommand.ExecuteNonQuery();
+                                }
+
+                                // Update username in TransactionTable
+                                using (SQLiteCommand updateTransactionCommand = connection.CreateCommand())
+                                {
+                                    updateTransactionCommand.CommandText = "UPDATE TransactionTable SET TransactionName = @NewUserName WHERE TransactionName = @OldUserName";
+                                    updateTransactionCommand.Parameters.AddWithValue("@NewUserName", user.userName);
+                                    updateTransactionCommand.Parameters.AddWithValue("@OldUserName", oldUsername);
+                                    updateTransactionCommand.ExecuteNonQuery();
+                                }
                             }
 
-                            // Perform the update
+                            // Perform the update in UserTable
                             using (SQLiteCommand updateCommand = connection.CreateCommand())
                             {
                                 updateCommand.CommandText = @"UPDATE UserTable 

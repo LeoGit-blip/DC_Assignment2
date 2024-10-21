@@ -251,6 +251,8 @@ function updateUserInformation() {
         NewPassword: newPassword || null
     };
 
+    data.UserName = newUserName
+
     // Only include fields that have been changed
     Object.keys(updateRequest).forEach(key =>
         updateRequest[key] === null && delete updateRequest[key]
