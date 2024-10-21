@@ -28,6 +28,10 @@ namespace BankDataWebService.Data
                         command.ExecuteNonQuery();
                         connection.Close();
                     }
+
+                    var users = generateAccounts(10);
+                    DBManager.dataSeeding(null, users, null);
+
                 }
                 Console.WriteLine("Table Account Created Successfully");
             }
@@ -58,6 +62,8 @@ namespace BankDataWebService.Data
                         command.ExecuteNonQuery();
                         connection.Close();
                     }
+                    var users = generateUsers(10);
+                    DBManager.dataSeeding(users, null, null);
                 }
                 Console.WriteLine("Table User Created Successfully");
             }
@@ -88,6 +94,8 @@ namespace BankDataWebService.Data
                         command.ExecuteNonQuery();
                         connection.Close();
                     }
+                    var users = generateTransaction(10);
+                    DBManager.dataSeeding(null, null, users);
                 }
                 Console.WriteLine("Table Transaction Created Successfully");
             }
