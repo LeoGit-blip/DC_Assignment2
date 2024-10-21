@@ -1,18 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 }
 <div id="EditUserInformationPage">
-    <label for="username">User Name</label>
-    <input type="text" id="UsernameID" name="Username" placeholder="Username" />
-    <label for="email">Email Address</label>
-    <input type="email" id="EmailID" name="Email" placeholder="Email Address" />
-    <label for="number">Phone Number</label>
-    <input type="number" id="PhoneNumberID" name="PhoneNumber" placeholder="Phone Number" />
-    <label for="password">New Password</label>
-    <input type="password" id="PasswordID" name="Password" placeholder="Password" />
-    <label for="file">Profile Picture</label>
-    <input type="file" id="ProfilePictureID" name="ProfilePicture" accept="image/*" />
-    <button type="button" id="SaveID" onclick="userUpdatedInfoValidationCheck()">Save</button>
+    <h2>Edit User Information</h2>
+    <form id="editUserForm">
+        <div>
+            <label for="UsernameID">New Username (optional)</label>
+            <input type="text" id="UsernameID" name="Username" placeholder="New Username" />
+        </div>
+        <div>
+            <label for="EmailID">Email Address</label>
+            <input type="email" id="EmailID" name="Email" placeholder="Email Address" required />
+        </div>
+        <div>
+            <label for="PhoneNumberID">Phone Number</label>
+            <input type="tel" id="PhoneNumberID" name="PhoneNumber" placeholder="Phone Number" />
+        </div>
+        <div>
+            <label for="PasswordID">New Password (optional)</label>
+            <input type="password" id="PasswordID" name="Password" placeholder="New Password" />
+        </div>
+        <button type="button" id="SaveID" onclick="updateUserInformation()">Save Changes</button>
+    </form>
 </div>

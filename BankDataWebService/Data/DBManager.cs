@@ -23,7 +23,7 @@ namespace BankDataWebService.Data
                         Balance INTEGER,
                         HolderName TEXT NOT NULL,
                         PhoneNumber INTEGER,
-                        Email TEXT NOT NULL,
+                        Email TEXT NOT NULL
                     );";
                         command.ExecuteNonQuery();
                         connection.Close();
@@ -33,7 +33,7 @@ namespace BankDataWebService.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error" + ex.Message);
+                Console.WriteLine("Error CreateAccountTable" + ex.Message);
             }
             return false;
         }
@@ -185,9 +185,10 @@ namespace BankDataWebService.Data
                     using (SQLiteCommand command = connection.CreateCommand())
                     {
                         command.CommandText = @"
-                        INSERT INTO TransactionTable (TransactionAmount, TransactionType, TransactionTime)
-                        VALUES (@TransactionAmount, @TransactionType, @TransactionTime)";
+                        INSERT INTO TransactionTable (TransactionName, TransactionAmount, TransactionType, TransactionTime)
+                        VALUES (@TransactionName, @TransactionAmount, @TransactionType, @TransactionTime)";
 
+                        command.Parameters.AddWithValue("@TransactionName", transaction.transactionName);
                         command.Parameters.AddWithValue("@TransactionAmount", transaction.transactionAmount);
                         command.Parameters.AddWithValue("@TransactionType", transaction.transactionType);
                         command.Parameters.AddWithValue("@TransactionTime", transaction.transactionTime);
@@ -565,6 +566,7 @@ namespace BankDataWebService.Data
                             {
                                 Transaction transaction = new Transaction();
                                 transaction.transactionID = Convert.ToInt32(reader["TransactionID"]);
+                                transaction.transactionName = reader["TransactionName"].ToString();
                                 transaction.transactionAmount = Convert.ToDouble(reader["TransactionAmount"]);
                                 transaction.transactionType = reader["TransactionType"].ToString();
                                 transaction.transactionTime = Convert.ToDateTime(reader["TransactionTime"]);
@@ -812,7 +814,7 @@ namespace BankDataWebService.Data
                 {
                     accountNumber = random.Next(1000, 9999),
                     balance = random.Next(1000, 100000),
-                    holderName = randomString(10),
+                    holderName = "User" + (i + 1),
                     phoneNumber = random.Next(10000, 99999),
                     email = $"user{i + 1}@example.com"
                 });
@@ -852,6 +854,7 @@ namespace BankDataWebService.Data
             {
                 transactionList.Add(new Transaction
                 {
+                    transactionName = "User" + (i + 1),
                     transactionType = random.Next(0, 2) == 0 ? "Deposit" : "Withdraw",
                     transactionAmount = random.Next(1, 100000),
                     transactionTime = DateTime.Now,
@@ -875,6 +878,66 @@ namespace BankDataWebService.Data
             {
                 insertTransaction(transaction);
             }
+        }
+
+        public static List<Transaction> getTransactionsByUser(string username)
+        {
+            List<Transaction> transactionList = new List<Transaction>();
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // First, get the user's account number
+                    int? userAccountNumber = null;
+                    using (SQLiteCommand accountCommand = connection.CreateCommand())
+                    {
+                        accountCommand.CommandText = "SELECT AccountNumber FROM AccountTable WHERE HolderName = @Username";
+                        accountCommand.Parameters.AddWithValue("@Username", username);
+                        var result = accountCommand.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            userAccountNumber = Convert.ToInt32(result);
+                        }
+                    }
+
+                    if (userAccountNumber.HasValue)
+                    {
+                        // Now fetch transactions
+                        using (SQLiteCommand command = connection.CreateCommand())
+                        {
+                            command.CommandText = @"SELECT * FROM TransactionTable 
+                                            WHERE TransactionName LIKE @SearchPattern 
+                                            OR TransactionName = @Username";
+                            command.Parameters.AddWithValue("@SearchPattern", $"%{userAccountNumber}%");
+                            command.Parameters.AddWithValue("@Username", username);
+
+                            using (SQLiteDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    Transaction transaction = new Transaction
+                                    {
+                                        transactionID = Convert.ToInt32(reader["TransactionID"]),
+                                        transactionName = reader["TransactionName"].ToString(),
+                                        transactionAmount = Convert.ToDouble(reader["TransactionAmount"]),
+                                        transactionType = reader["TransactionType"].ToString(),
+                                        transactionTime = Convert.ToDateTime(reader["TransactionTime"])
+                                    };
+                                    transactionList.Add(transaction);
+                                }
+                            }
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in getTransactionsByUser: " + ex.Message);
+            }
+            return transactionList;
         }
     }
 }

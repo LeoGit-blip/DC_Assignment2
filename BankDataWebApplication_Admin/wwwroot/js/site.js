@@ -382,8 +382,8 @@ function logAction(action) {
 }
 
 /* Login */
+/* Login */
 function performAuth() {
-
     var name = document.getElementById('UsernameID').value;
     var password = document.getElementById('PasswordID').value;
     data = {
@@ -394,14 +394,13 @@ function performAuth() {
     const apiUrl = '/api/admin/auth';
 
     const headers = {
-        'Content-Type': 'application/json', // Specify the content type as JSON if you're sending JSON data
-        // Add any other headers you need here
+        'Content-Type': 'application/json',
     };
 
     const requestOptions = {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify(data) // Convert the data object to a JSON string
+        body: JSON.stringify(data)
     };
 
     fetch(apiUrl, requestOptions)
@@ -412,22 +411,19 @@ function performAuth() {
             return response.json();
         })
         .then(data => {
-            // Handle the data from the API
-            const jsonObject = data;
-            if (jsonObject.login) {
+            if (data.login) {
                 loadView("authview");
                 enableAdminButtons();
                 logAction('Admin logged in');
+            } else {
+                // Display error message
+                alert(data.message || 'Login failed. Please try again.');
+                logAction('Failed login attempt: ' + data.message);
             }
-            else {
-                loadView("error");
-                logAction('Failed login attempt');
-            }
-
         })
         .catch(error => {
-            // Handle any errors that occurred during the fetch
             console.error('Fetch error:', error);
+            alert('An error occurred. Please try again later.');
         });
 }
 function disableAdminButtons() {

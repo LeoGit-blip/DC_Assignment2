@@ -4,30 +4,35 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BankDataWebService.Models;
+using BankDataWebService.Data;
 
 namespace BankDataWebApplication_User.Controllers
 {
+    [Route("api/transactionuser")]
     public class TransactionController : Controller
     {
-        private readonly HttpClient _httpClient;
-        private const string BaseUrl = "http://localhost:46275/api/";
-        private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
+        [HttpGet]
+        public IActionResult GetDefaultView()
         {
-            PropertyNameCaseInsensitive = true
-        };
-
-        public TransactionController(IHttpClientFactory httpClientFactory)
-        {
-            _httpClient = httpClientFactory.CreateClient();
+            return PartialView("~/Views/TransactionHistory/TransactionHistoryPage.cshtml");
         }
 
-        public async Task<IActionResult> History(int accountId)
+        [HttpGet("history/{username}")]
+        public IActionResult GetTransactionHistory(string username, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
-            var response = await _httpClient.GetAsync(BaseUrl + $"transaction?accountId={accountId}");
-            response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
-            var transactions = JsonSerializer.Deserialize<List<Transaction>>(content, JsonOptions);
-            return View(transactions);
+            var userTransactions = DBManager.getTransactionsByUser(username);
+
+            if (startDate.HasValue)
+            {
+                userTransactions = userTransactions.Where(t => t.transactionTime >= startDate.Value).ToList();
+            }
+
+            if (endDate.HasValue)
+            {
+                userTransactions = userTransactions.Where(t => t.transactionTime <= endDate.Value).ToList();
+            }
+
+            return Json(userTransactions);
         }
     }
 }

@@ -9,8 +9,8 @@
             <option value="Name">Name</option>
             <option value="Email">Email</option>
         </select>
-        <button type="button" id="FilterID" onclick="searchUsers()">Search</button>  <!-- filter  -->
         <input type="text" id="SearchInputID" name="SearchInput" placeholder="Enter search term">
+        <button type="button" id="FilterID" onclick="searchUsers()">Search</button>  <!-- filter  -->
     </div>
 
     <!-- buttons - 3 options (create, edit, deactivate) -->
@@ -22,7 +22,7 @@
     </ul>
 
     <!-- create new users -->
-    <div id="CreateNewUserSection" style="margin-top:70px; margin-bottom:70px; display:none;">
+    <div id="CreateNewUserSection" style="display:none;">
         <label for="username">User Name</label>
         <input type="text" id="CreateUsernameID" name="Username" placeholder="Username" />
         <label for="email">Email Address</label>
@@ -37,7 +37,7 @@
     </div>
 
     <!-- edit users -->
-    <div id="EditNewUserSection" style="margin-top:70px; margin-bottom:70px; display:none;">
+    <div id="EditNewUserSection" style="display:none;">
         <label for="username">User Name</label>
         <input type="text" id="EditUsernameID" name="Username" placeholder="Username" />
         <label for="email">Email Address</label>
@@ -52,7 +52,7 @@
     </div>
 
     <!-- deactivate users -->
-    <div id="DeactivateUserSection" style="margin-top:70px; display:none;">
+    <div id="DeactivateUserSection" style="display:none;">
         <label for="username">Deactivate User Name</label>
         <input type="text" id="DeactivateUsernameID" name="Username" placeholder="Username" />
         <button type="button" id="DeactivateButtonID" onclick="deactivateUser()">Deactivate</button>

@@ -26,8 +26,6 @@ namespace BankDataWebService.Controllers
                 };
             }
         }
-
-        [HttpGet]
         public IActionResult getAllAccounts()
         {
             var accounts = DBManager.getAllAcounts();

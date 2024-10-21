@@ -1,27 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 }
 <div id="TransactionHistoryPage">
     <h2><b><u>Transaction History</u></b></h2>
-    <!-- recepient's name, date, amount, description  -->
-    <label for="date">Search by Date</label>
-    <input type="date" id="DateInputID" name="Date" placeholder="Date" />
-    <button type="button" id="FilterID" onclick="filterInfo()">Search</button>  <!-- filter by date -->
+    <div>
+        <label for="StartDateInputID">Start Date:</label>
+        <input type="date" id="StartDateInputID" name="StartDate" />
+
+        <label for="EndDateInputID">End Date:</label>
+        <input type="date" id="EndDateInputID" name="EndDate" />
+
+        <button type="button" id="FilterID" onclick="loadTransactionHistory()">Filter</button>
+    </div>
 
     <table border="2" id="TransactionHistoryTable">
         <thead>
             <tr>
                 <th>Date</th>
-                <th>Recipient Name</th>
-                <th>Amount</th>
                 <th>Description</th>
+                <th>Amount</th>
+                <th>Type</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- table body  -->
-            <!-- display here  -->
+        <tbody id="TransactionHistoryTableBody">
+            <!-- Transaction data will be inserted here by JavaScript -->
         </tbody>
     </table>
+    <div id="NoTransactionsMessage" style="display: none;">
+        No transactions found for the selected date range.
+    </div>
 </div>
+
+<script>
+    // Load transaction history when the page loads
+    document.addEventListener('DOMContentLoaded', loadTransactionHistory);
+</script>

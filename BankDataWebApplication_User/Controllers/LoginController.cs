@@ -2,10 +2,10 @@
 using BankDataWebService.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankDataWebApplication_Admin.Controllers
+namespace BankDataWebApplication_User.Controllers
 {
-    [Route("api/admin")]
-    public class AdminController : Controller
+    [Route("api/user")]
+    public class LoginController : Controller
     {
         [HttpGet]
         public IActionResult GetDefaultView()
@@ -30,16 +30,16 @@ namespace BankDataWebApplication_Admin.Controllers
                 var cookieValue = Request.Cookies["SessionID"];
                 if (cookieValue == "1234567")
                 {
-                    return PartialView("~/Views/AdminLogin/AuthenticatedAdminLoginPage.cshtml");
+                    return PartialView("~/Views/Login/AuthenticatedUserLoginPage.cshtml");
                 }
             }
-            return PartialView("~/Views/AdminLogin/AdminLoginPage.cshtml");
+            return PartialView("~/Views/Login/LoginPage.cshtml");
         }
 
         [HttpGet("error")]
         public IActionResult GetLoginErrorView()
         {
-            return PartialView("~/Views/AdminLogin/ErrorInAdminLoginPage.cshtml");
+            return PartialView("~/Views/Login/ErrorInLoginPage.cshtml");
         }
 
         [HttpPost("auth")]
@@ -73,12 +73,12 @@ namespace BankDataWebApplication_Admin.Controllers
                 var cookieValue = Request.Cookies["SessionID"];
                 if (cookieValue == "1234567")
                 {
-                    return PartialView("~/Views/AdminLogin/AuthenticatedAdminLoginPage.cshtml");
+                    return PartialView("~/Views/Login/AuthenticatedUserLoginPage.cshtml");
                 }
 
             }
             // Return the partial view as HTML
-            return PartialView("~/Views/AdminLogin/ErrorInAdminLoginPage.cshtml");
+            return PartialView("~/Views/Login/ErrorInLoginPage.cshtm");
         }
     }
 }

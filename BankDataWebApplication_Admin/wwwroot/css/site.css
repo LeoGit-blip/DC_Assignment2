@@ -1,20 +1,20 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 .header, footer {
@@ -22,7 +22,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 div#header {
@@ -110,16 +110,16 @@ div#AdminHomePage li {
             color: white; /* font color */
         }
 
-/* buttons before login */
-div#AdminHomePage li button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
+        /* buttons before login */
+        div#AdminHomePage li button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
-    div#AdminHomePage li button:disabled:hover {
-        background-color: black;
-        color: white;
-    }
+            div#AdminHomePage li button:disabled:hover {
+                background-color: black;
+                color: white;
+            }
 
 /* moving text style */
 #Marquee {
@@ -153,7 +153,7 @@ div#AdminHomePage li button:disabled {
 }
 
 /* edit button in admin profile information page */
-#EditID {
+#EditButtonID {
     background-color: lightskyblue;
     border: 3px solid black;
     color: black;
@@ -163,7 +163,7 @@ div#AdminHomePage li button:disabled {
     width: 90px;
 }
 
-    #EditID:hover {
+    #EditButtonID:hover {
         background-color: black;
         opacity: 1.0;
         color: white;
@@ -171,6 +171,12 @@ div#AdminHomePage li button:disabled {
     }
 
 /* User Profile Information page */
+#Searching {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
 #UserManagementPage h2 {
     font-family: 'Betm Rounded';
     display: flex;
@@ -186,28 +192,38 @@ div#AdminHomePage li button:disabled {
     justify-content: center;
 }
 
-#UserManagementPage li button{
+#UserManagementPage li button {
     flex: 1; /* same length */
     font-size: medium;
-    margin-top:40px;
+    margin-top: 40px;
     font-family: Bahnschrift;
     height: 50px;
     width: 150px;
-    background-color:lightslategray;
-    border:solid;
-    margin-right:12px;
+    background-color: lightslategray;
+    border: solid;
+    margin-right: 12px;
 }
-    /* button style after hovering on it */
-    div#UserManagementPage li button:hover {
-        background-color: black;
-        color: white; /* font color */
-    }
+/* button style after hovering on it */
+div#UserManagementPage li button:hover {
+    background-color: black;
+    color: white; /* font color */
+}
 
-#Searching {
+#FilterID {
     display: flex;
     align-content: center;
     justify-content: center;
+    background-color: lightskyblue;
+    border: 3px solid black;
+    color: black;
 }
+    /* button style after hovering on it */
+    #FilterID:hover {
+        background-color: black;
+        opacity: 1.0;
+        color: white;
+        border: 3px solid black;
+    }
 
 /* edit user information page */
 #CreateNewUserSection {
@@ -215,17 +231,19 @@ div#AdminHomePage li button:disabled {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 550px;
+    height: 200px;
+    margin-top: 70px;
+    margin-bottom: 70px;
 }
 
     #CreateNewUserSection input,
     #CreateNewUserSection button {
         margin: 5px;
-        width: 300px;
+        width: 200px;
         padding: 10px;
     }
 
-#SaveID {
+#SaveCreateID {
     background-color: lightskyblue;
     border: 3px solid black;
     color: black;
@@ -233,9 +251,39 @@ div#AdminHomePage li button:disabled {
     font-weight: 500;
 }
 
-    #SaveID:hover {
+    #SaveCreateID:hover {
         background-color: black;
-        opacity: 1.0;
+        color: white;
+        border: 3px solid black;
+    }
+
+#EditNewUserSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+    #EditNewUserSection input,
+    #EditNewUserSection button {
+        margin: 5px;
+        width: 200px;
+        padding: 10px;
+    }
+
+#SaveEditID {
+    background-color: lightskyblue;
+    border: 3px solid black;
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+    #SaveEditID:hover {
+        background-color: black;
         color: white;
         border: 3px solid black;
     }
@@ -246,9 +294,11 @@ div#AdminHomePage li button:disabled {
     align-items: center;
     justify-content: center;
     height: 150px;
+    padding-left: 350px;
+    margin-top: 70px;
 }
 
-    #DeactivateUserSection input{
+    #DeactivateUserSection input {
         margin: 5px;
         width: 300px;
         padding: 10px;
@@ -260,7 +310,7 @@ div#AdminHomePage li button:disabled {
     color: black;
     font-size: 16px;
     width: 100px;
-    height:40px;
+    height: 40px;
     font-weight: 500;
 }
 
@@ -286,7 +336,7 @@ div#AdminHomePage li button:disabled {
 }
 
 /* table style - transaction management, user management and logs and audit trails page */
-table, th, td{
+table, th, td {
     border: 3px solid;
 }
 
@@ -294,15 +344,15 @@ table {
     width: 100%;
     font-size: 18px;
     font-family: 'Betm Rounded';
-    font-stretch:expanded;
+    font-stretch: expanded;
     margin-top: 40px;
 }
 
 th, td {
     width: 100px;
     height: 40px;
-    text-align:center;
-    background-color:wheat;
+    text-align: center;
+    background-color: wheat;
     color: black;
 }
 
@@ -323,7 +373,6 @@ th, td {
     /* logout page link (here) style */
     #AdminLogoutPage a {
         color: darkblue;
-        font-weight: 500;
+        font-weight:  500;
+            
     }
-
-

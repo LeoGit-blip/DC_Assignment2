@@ -45,8 +45,6 @@ namespace BankDataWebService.Controllers
                 };
             }
         }
-
-        [HttpGet]
         public IActionResult getAllUser()
         {
             var users = DBManager.getAllUsers();
